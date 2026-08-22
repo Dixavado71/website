@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
 interface LoginModalProps {
@@ -7,10 +8,26 @@ interface LoginModalProps {
 }
 
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   if (!isOpen) return null;
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    
+    // Simula login com qualquer valor
+    setTimeout(() => {
+      setIsLoading(false);
+      onClose();
+      navigate('/dashboard');
+    }, 1000);
+  };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -41,7 +58,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
         </div>
 
         {/* Form */}
-        <form className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-6">
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -51,7 +68,10 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="seu@email.com"
+                required
                 className="w-full bg-surface/50 border border-white/10 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
               />
             </div>
@@ -66,7 +86,10 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
               <input
                 type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
+                required
                 className="w-full bg-surface/50 border border-white/10 rounded-lg pl-10 pr-10 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
               />
               <button
@@ -98,9 +121,10 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           {/* Submit button */}
           <button
             type="submit"
-            className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg transition-all duration-200 glow-green"
+            disabled={isLoading}
+            className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg transition-all duration-200 glow-green disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Entrar
+            {isLoading ? 'Entrando...' : 'Entrar'}
           </button>
         </form>
 
