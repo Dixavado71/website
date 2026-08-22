@@ -51,6 +51,9 @@ import {
   activeConversations,
   notifications
 } from '../../data/dashboard';
+import OrdersPage from './components/OrdersPage';
+import ProductsPage from './components/ProductsPage';
+import CustomersPage from './components/CustomersPage';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -59,6 +62,10 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState('overview');
   const [showNotifications, setShowNotifications] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState('7d');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [orderStatusFilter, setOrderStatusFilter] = useState('all');
+  const [productStatusFilter, setProductStatusFilter] = useState('all');
+  const [customerSegmentFilter, setCustomerSegmentFilter] = useState('all');
 
   const menuItems = [
     { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
@@ -189,13 +196,15 @@ const Dashboard = () => {
 
         {/* Dashboard Content */}
         <div className="dashboard-content">
-          <div className="content-header">
-            <h2>Visão Geral</h2>
-            <p>Bem-vindo ao seu painel de controle</p>
-          </div>
+          {activeTab === 'overview' && (
+            <>
+              <div className="content-header">
+                <h2>Visão Geral</h2>
+                <p>Bem-vindo ao seu painel de controle</p>
+              </div>
 
-          {/* Metrics Grid */}
-          <div className="metrics-grid">
+              {/* Metrics Grid */}
+              <div className="metrics-grid">
             {dashboardMetrics.map((metric, idx) => (
               <div key={idx} className={`metric-card glow-${idx === 0 ? 'green' : idx === 1 ? 'cyan' : idx === 2 ? 'purple' : 'magenta'}`}>
                 <div className="metric-header">
@@ -484,6 +493,49 @@ const Dashboard = () => {
               ))}
             </div>
           </div>
+            </>
+          )}
+
+          {activeTab === 'orders' && (
+            <OrdersPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              orderStatusFilter={orderStatusFilter}
+              setOrderStatusFilter={setOrderStatusFilter}
+            />
+          )}
+
+          {activeTab === 'products' && (
+            <ProductsPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              productStatusFilter={productStatusFilter}
+              setProductStatusFilter={setProductStatusFilter}
+            />
+          )}
+
+          {activeTab === 'customers' && (
+            <CustomersPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              customerSegmentFilter={customerSegmentFilter}
+              setCustomerSegmentFilter={setCustomerSegmentFilter}
+            />
+          )}
+
+          {['conversations', 'store', 'automation', 'financial', 'reports', 'settings', 'help'].includes(activeTab) && (
+            <div className="dashboard-content">
+              <div className="content-header">
+                <h2>{menuItems.find(item => item.id === activeTab)?.label}</h2>
+                <p>Em desenvolvimento - Esta funcionalidade estará disponível em breve</p>
+              </div>
+              <div className="empty-state" style={{ padding: '60px 20px' }}>
+                <Bot size={64} className="icon-gray" />
+                <h3>Funcionalidade em Desenvolvimento</h3>
+                <p>Estamos trabalhando para trazer esta funcionalidade o mais breve possível.</p>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>
