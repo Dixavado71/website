@@ -5,11 +5,8 @@ node_modules/
 # Build outputs
 dist/
 build/
-.next/
-out/
-
-# Logs
-*.log
+*.js.map
+*.css.map
 
 # Environment variables
 .env
@@ -23,53 +20,11 @@ out/
 *.swo
 *.tmp
 
-# Python
+# Logs
+*.log
+
+# Python cache (if any Python files exist in project)
 __pycache__/
 *.pyc
 *.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
-pip-log.txt
-pip-delete-this-directory.txt
-.tox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.log
-.git/
-.mypy_cache/
-.pytest_cache/
-.hypothesis/
-
-# Node.js
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-node_modules/
-dist/
-build/
-.nyc_output
-coverage/
-.nyc_output/
-coverage/
-
-# TypeScript
-*.tsbuildinfo
-dist/
-build/
-
-# Next.js
-.next/
-out/
-coverage/
-
-# General
-.DS_Store
-Thumbs.db
 ```
