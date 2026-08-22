@@ -3,11 +3,15 @@ import { Menu, X } from 'lucide-react';
 import { navItems } from '../../data/navigation';
 import LoginModal from '../LoginModal/LoginModal';
 
-const Navbar = () => {
+interface NavbarProps {
+  onOpenSignup: () => void;
+}
+
+const Navbar = ({ onOpenSignup }: NavbarProps) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
+  
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -56,7 +60,10 @@ const Navbar = () => {
               >
                 Entrar
               </button>
-              <button className="px-6 py-2.5 text-sm font-medium bg-primary hover:bg-primary/90 text-black rounded-lg transition-all duration-200 glow-green">
+              <button 
+                onClick={onOpenSignup}
+                className="px-6 py-2.5 text-sm font-medium bg-primary hover:bg-primary/90 text-black rounded-lg transition-all duration-200 glow-green"
+              >
                 Começar agora
               </button>
             </div>
@@ -97,7 +104,13 @@ const Navbar = () => {
                 >
                   Entrar
                 </button>
-                <button className="w-full px-4 py-3 text-sm font-medium bg-primary hover:bg-primary/90 text-black rounded-lg transition-all duration-200 glow-green">
+                <button 
+                  onClick={() => {
+                    onOpenSignup();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full px-4 py-3 text-sm font-medium bg-primary hover:bg-primary/90 text-black rounded-lg transition-all duration-200 glow-green"
+                >
                   Começar agora
                 </button>
               </div>
