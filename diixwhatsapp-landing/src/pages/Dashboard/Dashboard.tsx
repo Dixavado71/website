@@ -54,6 +54,10 @@ import {
 import OrdersPage from './components/OrdersPage';
 import ProductsPage from './components/ProductsPage';
 import CustomersPage from './components/CustomersPage';
+import ConversationsPage from './components/ConversationsPage';
+import StorePage from './components/StorePage';
+import AutomationPage from './components/AutomationPage';
+import FinancialPage from './components/FinancialPage';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -523,7 +527,35 @@ const Dashboard = () => {
             />
           )}
 
-          {['conversations', 'store', 'automation', 'financial', 'reports', 'settings', 'help'].includes(activeTab) && (
+          {activeTab === 'conversations' && (
+            <ConversationsPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          )}
+
+          {activeTab === 'store' && (
+            <StorePage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          )}
+
+          {activeTab === 'automation' && (
+            <AutomationPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          )}
+
+          {activeTab === 'financial' && (
+            <FinancialPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          )}
+
+          {['reports', 'settings', 'help'].includes(activeTab) && (
             <div className="dashboard-content">
               <div className="content-header">
                 <h2>{menuItems.find(item => item.id === activeTab)?.label}</h2>
