@@ -1,7 +1,11 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, MessageSquare } from 'lucide-react';
 
-const Hero = () => {
+interface HeroProps {
+  onOpenSignup: () => void;
+}
+
+const Hero = ({ onOpenSignup }: HeroProps) => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden cyberpunk-grid pt-20">
       {/* Background gradient orbs */}
@@ -49,7 +53,10 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <button className="group px-8 py-4 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg transition-all duration-200 glow-green flex items-center gap-2">
+            <button 
+              onClick={onOpenSignup}
+              className="group px-8 py-4 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg transition-all duration-200 glow-green flex items-center gap-2"
+            >
               Começar agora
               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>

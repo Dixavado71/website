@@ -4,7 +4,11 @@ import { SectionTitle } from '../UI/SectionTitle';
 import { GlassCard } from '../UI/GlassCard';
 import { plans } from '../../data/plans';
 
-const Pricing = () => {
+interface PricingProps {
+  onOpenSignup: () => void;
+}
+
+const Pricing = ({ onOpenSignup }: PricingProps) => {
   return (
     <section id="pricing" className="py-24 bg-background relative overflow-hidden">
       {/* Background effects */}
@@ -66,6 +70,7 @@ const Pricing = () => {
 
                 {/* CTA Button */}
                 <button
+                  onClick={onOpenSignup}
                   className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 ${
                     plan.highlighted
                       ? 'bg-gradient-to-r from-magenta to-purple hover:from-magenta/90 hover:to-purple/90 text-white shadow-[0_0_20px_rgba(255,46,209,0.4)]'
