@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Store, Package, Users, ClipboardList, Building2, ArrowDown } from 'lucide-react';
+import { Store, Package, Users, ClipboardList, Building2, Shield, TrendingUp, Settings, LayoutDashboard } from 'lucide-react';
 import { SectionTitle } from '../UI/SectionTitle';
 import { GlassCard } from '../UI/GlassCard';
 
@@ -161,10 +161,10 @@ const MultiTenant = () => {
             },
           ].map((benefit, idx) => {
             const IconComponent = 
-              benefit.icon === 'Shield' ? require('lucide-react').Shield :
-              benefit.icon === 'TrendingUp' ? require('lucide-react').TrendingUp :
-              benefit.icon === 'Settings' ? require('lucide-react').Settings :
-              require('lucide-react').LayoutDashboard;
+              benefit.icon === 'Shield' ? Shield :
+              benefit.icon === 'TrendingUp' ? TrendingUp :
+              benefit.icon === 'Settings' ? Settings :
+              LayoutDashboard;
             
             return (
               <motion.div

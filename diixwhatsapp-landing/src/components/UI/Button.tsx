@@ -1,4 +1,5 @@
-import type { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes, ForwardedRef } from 'react';
+import { forwardRef } from 'react';
 import { cn } from '../../lib/utils';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -8,17 +9,17 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', children, ...props }, ref) => {
+  ({ className, variant = 'primary', size = 'md', children, ...props }: ButtonProps, ref: ForwardedRef<HTMLButtonElement>) => {
     const baseStyles = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background';
     
-    const variants = {
+    const variants: Record<string, string> = {
       primary: 'bg-primary hover:bg-primary/90 text-black shadow-neon-green focus:ring-primary',
       secondary: 'bg-surfaceAlt hover:bg-surfaceAlt/80 text-white border border-white/10 focus:ring-purple',
       outline: 'bg-transparent hover:bg-surfaceAlt text-white border border-primary/50 focus:ring-primary',
       ghost: 'bg-transparent hover:bg-surfaceAlt/50 text-gray-300 hover:text-white focus:ring-muted',
     };
     
-    const sizes = {
+    const sizes: Record<string, string> = {
       sm: 'px-4 py-2 text-sm',
       md: 'px-6 py-3 text-base',
       lg: 'px-8 py-4 text-lg',

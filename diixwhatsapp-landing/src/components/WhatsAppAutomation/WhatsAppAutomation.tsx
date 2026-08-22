@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { MessageSquare, Send, Bot, CheckCircle, ArrowDown } from 'lucide-react';
+import { MessageSquare, Send, Bot, CheckCircle } from 'lucide-react';
 import { SectionTitle } from '../UI/SectionTitle';
 import { GlassCard } from '../UI/GlassCard';
 import { chatMessages, automationSteps, automationFeatures } from '../../data/automation';
