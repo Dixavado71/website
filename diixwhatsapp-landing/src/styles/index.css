@@ -16,5 +16,6 @@
 @import './components/_metrics.css';
 @import './components/_tables.css';
 @import './components/_conversations.css';
+@import './components/_reports-settings.css';
 
 /* Nota: Adicione novos imports aqui conforme criar mais módulos */

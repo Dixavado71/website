@@ -58,6 +58,8 @@ import ConversationsPage from './components/ConversationsPage';
 import StorePage from './components/StorePage';
 import AutomationPage from './components/AutomationPage';
 import FinancialPage from './components/FinancialPage';
+import ReportsPage from './components/ReportsPage';
+import SettingsPage from './components/SettingsPage';
 import '../../styles/index.css';
 
 const Dashboard = () => {
@@ -555,16 +557,67 @@ const Dashboard = () => {
             />
           )}
 
-          {['reports', 'settings', 'help'].includes(activeTab) && (
+          {activeTab === 'reports' && (
+            <ReportsPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          )}
+
+          {activeTab === 'settings' && (
+            <SettingsPage 
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
+          )}
+
+          {activeTab === 'help' && (
             <div className="dashboard-content">
               <div className="content-header">
-                <h2>{menuItems.find(item => item.id === activeTab)?.label}</h2>
-                <p>Em desenvolvimento - Esta funcionalidade estará disponível em breve</p>
+                <h2>❓ Ajuda e Suporte</h2>
+                <p>Encontre respostas e suporte para suas dúvidas</p>
               </div>
-              <div className="empty-state" style={{ padding: '60px 20px' }}>
-                <Bot size={64} className="icon-gray" />
-                <h3>Funcionalidade em Desenvolvimento</h3>
-                <p>Estamos trabalhando para trazer esta funcionalidade o mais breve possível.</p>
+              <div className="help-center-container">
+                <div className="help-search-box">
+                  <Search size={24} />
+                  <input type="text" placeholder="Como podemos ajudar você?" />
+                </div>
+                <div className="help-topics-grid">
+                  <div className="help-topic-card">
+                    <MessageSquare size={32} className="icon-green" />
+                    <h4>Primeiros Passos</h4>
+                    <p>Aprenda a usar o DiixWhatsApp</p>
+                  </div>
+                  <div className="help-topic-card">
+                    <Bot size={32} className="icon-cyan" />
+                    <h4>Automação</h4>
+                    <p>Configure seus fluxos de chatbot</p>
+                  </div>
+                  <div className="help-topic-card">
+                    <ShoppingCart size={32} className="icon-purple" />
+                    <h4>Pedidos</h4>
+                    <p>Gerencie vendas e entregas</p>
+                  </div>
+                  <div className="help-topic-card">
+                    <Settings size={32} className="icon-magenta" />
+                    <h4>Configurações</h4>
+                    <p>Personalize sua conta</p>
+                  </div>
+                </div>
+                <div className="help-contact">
+                  <h3>Precisa de mais ajuda?</h3>
+                  <p>Nossa equipe está disponível 24/7</p>
+                  <div className="help-contact-buttons">
+                    <button className="btn-help-contact">
+                      <MessageSquare size={18} />
+                      Chat ao Vivo
+                    </button>
+                    <button className="btn-help-contact secondary">
+                      <Mail size={18} />
+                      Enviar E-mail
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           )}
