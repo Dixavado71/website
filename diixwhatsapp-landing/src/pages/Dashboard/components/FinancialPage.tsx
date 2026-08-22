@@ -14,7 +14,7 @@ import {
   ArrowUpRight,
   ArrowDownRight
 } from 'lucide-react';
-import '../Dashboard.css';
+import '../../../styles/index.css';
 
 interface FinancialPageProps {
   searchTerm: string;
