@@ -16,7 +16,7 @@ import {
   DollarSign
 } from 'lucide-react';
 import { automationFlows } from '../../../data/dashboard';
-import '../Dashboard.css';
+import '../../../styles/index.css';
 
 interface AutomationPageProps {
   searchTerm: string;

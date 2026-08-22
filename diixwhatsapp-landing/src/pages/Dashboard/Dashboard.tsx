@@ -58,7 +58,7 @@ import ConversationsPage from './components/ConversationsPage';
 import StorePage from './components/StorePage';
 import AutomationPage from './components/AutomationPage';
 import FinancialPage from './components/FinancialPage';
-import './Dashboard.css';
+import '../../styles/index.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();

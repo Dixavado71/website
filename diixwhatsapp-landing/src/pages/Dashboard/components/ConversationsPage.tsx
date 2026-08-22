@@ -21,7 +21,7 @@ import {
   MessageCircle,
   X
 } from 'lucide-react';
-import '../Dashboard.css';
+import '../../../styles/index.css';
 
 interface ConversationsPageProps {
   searchTerm: string;

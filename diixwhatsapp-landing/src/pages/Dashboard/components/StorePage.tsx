@@ -14,7 +14,7 @@ import {
   Check
 } from 'lucide-react';
 import { topProducts } from '../../../data/dashboard';
-import '../Dashboard.css';
+import '../../../styles/index.css';
 
 interface StorePageProps {
   searchTerm: string;

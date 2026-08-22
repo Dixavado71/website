@@ -1,0 +1,20 @@
+/* ========================================
+   INDEX PRINCIPAL DE ESTILOS
+   Importa todos os módulos CSS organizados
+   ======================================== */
+
+/* Utilitários e Variáveis Globais */
+@import './utils/_variables.css';
+@import './utils/_buttons.css';
+
+/* Layout */
+@import './layout/_dashboard-layout.css';
+@import './layout/_sidebar.css';
+@import './layout/_topbar.css';
+
+/* Componentes */
+@import './components/_metrics.css';
+@import './components/_tables.css';
+@import './components/_conversations.css';
+
+/* Nota: Adicione novos imports aqui conforme criar mais módulos */
