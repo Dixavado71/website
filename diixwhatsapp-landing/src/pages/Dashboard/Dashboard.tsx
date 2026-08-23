@@ -25,7 +25,18 @@ import {
   Eye,
   Edit,
   Zap,
-  ArrowUpRight
+  ArrowUpRight,
+  Download,
+  Filter,
+  Calendar,
+  Table,
+  Moon,
+  Shield,
+  CreditCard,
+  Mail,
+  Phone,
+  CheckCircle2,
+  Info
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -557,15 +568,447 @@ const Dashboard = () => {
 
           {['reports', 'settings', 'help'].includes(activeTab) && (
             <div className="dashboard-content">
-              <div className="content-header">
-                <h2>{menuItems.find(item => item.id === activeTab)?.label}</h2>
-                <p>Em desenvolvimento - Esta funcionalidade estará disponível em breve</p>
-              </div>
-              <div className="empty-state" style={{ padding: '60px 20px' }}>
-                <Bot size={64} className="icon-gray" />
-                <h3>Funcionalidade em Desenvolvimento</h3>
-                <p>Estamos trabalhando para trazer esta funcionalidade o mais breve possível.</p>
-              </div>
+              {/* Página de Relatórios */}
+              {activeTab === 'reports' && (
+                <>
+                  <div className="content-header">
+                    <h2 className="flex-items-center gap-2">
+                      <FileText size={24} className="icon-cyan" />
+                      Relatórios e Analytics
+                    </h2>
+                    <p>Analise o desempenho do seu negócio com relatórios detalhados</p>
+                  </div>
+
+                  <div className="reports-actions-bar">
+                    <div className="report-filters">
+                      <button className="filter-btn">
+                        <Calendar size={16} />
+                        <span>Período</span>
+                      </button>
+                      <button className="filter-btn">
+                        <Filter size={16} />
+                        <span>Filtros</span>
+                      </button>
+                      <select className="report-type-select">
+                        <option>Todos os Relatórios</option>
+                        <option>Vendas</option>
+                        <option>Clientes</option>
+                        <option>Produtos</option>
+                        <option>Financeiro</option>
+                      </select>
+                    </div>
+                    <div className="report-actions">
+                      <button className="export-btn">
+                        <Download size={16} />
+                        <span>Exportar PDF</span>
+                      </button>
+                      <button className="export-btn">
+                        <Table size={16} />
+                        <span>Exportar Excel</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="reports-grid">
+                    <div className="report-card glow-green">
+                      <div className="report-icon">
+                        <TrendingUp size={24} />
+                      </div>
+                      <h3>Relatório de Vendas</h3>
+                      <p>Análise completa do desempenho de vendas por período, produto e canal</p>
+                      <div className="report-stats">
+                        <span>+15.3% Crescimento</span>
+                        <span>R$ 44.540 Total</span>
+                      </div>
+                      <button className="view-report-btn">Ver Relatório</button>
+                    </div>
+
+                    <div className="report-card glow-cyan">
+                      <div className="report-icon">
+                        <Users size={24} />
+                      </div>
+                      <h3>Relatório de Clientes</h3>
+                      <p>Segmentação, comportamento e métricas de retenção de clientes</p>
+                      <div className="report-stats">
+                        <span>3.456 Clientes</span>
+                        <span>78% Retenção</span>
+                      </div>
+                      <button className="view-report-btn">Ver Relatório</button>
+                    </div>
+
+                    <div className="report-card glow-purple">
+                      <div className="report-icon">
+                        <Package size={24} />
+                      </div>
+                      <h3>Relatório de Produtos</h3>
+                      <p>Desempenho de produtos, estoque e giro de mercadorias</p>
+                      <div className="report-stats">
+                        <span>156 Produtos</span>
+                        <span>89% Em Estoque</span>
+                      </div>
+                      <button className="view-report-btn">Ver Relatório</button>
+                    </div>
+
+                    <div className="report-card glow-magenta">
+                      <div className="report-icon">
+                        <DollarSign size={24} />
+                      </div>
+                      <h3>Relatório Financeiro</h3>
+                      <p>Receitas, despesas, fluxo de caixa e projeções financeiras</p>
+                      <div className="report-stats">
+                        <span>R$ 37.766 Saldo</span>
+                        <span>+12.5% Lucro</span>
+                      </div>
+                      <button className="view-report-btn">Ver Relatório</button>
+                    </div>
+
+                    <div className="report-card glow-green">
+                      <div className="report-icon">
+                        <Bot size={24} />
+                      </div>
+                      <h3>Relatório de Automação</h3>
+                      <p>Eficiência dos fluxos automatizados e taxa de conversão</p>
+                      <div className="report-stats">
+                        <span>8 Fluxos</span>
+                        <span>671 Conversões</span>
+                      </div>
+                      <button className="view-report-btn">Ver Relatório</button>
+                    </div>
+
+                    <div className="report-card glow-cyan">
+                      <div className="report-icon">
+                        <MessageSquare size={24} />
+                      </div>
+                      <h3>Relatório de Conversas</h3>
+                      <p>Métricas de atendimento, tempo de resposta e satisfação</p>
+                      <div className="report-stats">
+                        <span>&lt; 1s Resposta</span>
+                        <span>98% Satisfação</span>
+                      </div>
+                      <button className="view-report-btn">Ver Relatório</button>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Página de Configurações */}
+              {activeTab === 'settings' && (
+                <>
+                  <div className="content-header">
+                    <h2 className="flex-items-center gap-2">
+                      <Settings size={24} className="icon-purple" />
+                      Configurações
+                    </h2>
+                    <p>Gerencie as preferências e configurações da sua conta</p>
+                  </div>
+
+                  <div className="settings-grid">
+                    <div className="settings-card">
+                      <div className="settings-header">
+                        <Shield size={20} className="icon-green" />
+                        <h3>Segurança</h3>
+                      </div>
+                      <div className="settings-content">
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Autenticação de Dois Fatores</span>
+                            <span className="setting-desc">Proteja sua conta com 2FA</span>
+                          </div>
+                          <label className="toggle-switch">
+                            <input type="checkbox" defaultChecked />
+                            <span className="toggle-slider"></span>
+                          </label>
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Senha Forte</span>
+                            <span className="setting-desc">Exigir senha complexa</span>
+                          </div>
+                          <button className="btn-outline">Alterar Senha</button>
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Sessões Ativas</span>
+                            <span className="setting-desc">2 dispositivos conectados</span>
+                          </div>
+                          <button className="btn-link">Gerenciar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="settings-card">
+                      <div className="settings-header">
+                        <Bell size={20} className="icon-cyan" />
+                        <h3>Notificações</h3>
+                      </div>
+                      <div className="settings-content">
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Notificações Push</span>
+                            <span className="setting-desc">Receba alertas no navegador</span>
+                          </div>
+                          <label className="toggle-switch">
+                            <input type="checkbox" defaultChecked />
+                            <span className="toggle-slider"></span>
+                          </label>
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Email de Pedidos</span>
+                            <span className="setting-desc">Notifique novos pedidos</span>
+                          </div>
+                          <label className="toggle-switch">
+                            <input type="checkbox" defaultChecked />
+                            <span className="toggle-slider"></span>
+                          </label>
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Alertas de Estoque</span>
+                            <span className="setting-desc">Aviso de produto baixo</span>
+                          </div>
+                          <label className="toggle-switch">
+                            <input type="checkbox" />
+                            <span className="toggle-slider"></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="settings-card">
+                      <div className="settings-header">
+                        <Moon size={20} className="icon-purple" />
+                        <h3>Aparência</h3>
+                      </div>
+                      <div className="settings-content">
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Tema Escuro</span>
+                            <span className="setting-desc">Modo noturno ativado</span>
+                          </div>
+                          <label className="toggle-switch">
+                            <input type="checkbox" defaultChecked />
+                            <span className="toggle-slider"></span>
+                          </label>
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Idioma</span>
+                            <span className="setting-desc">Português (Brasil)</span>
+                          </div>
+                          <select className="setting-select">
+                            <option>Português</option>
+                            <option>English</option>
+                            <option>Español</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="settings-card">
+                      <div className="settings-header">
+                        <Store size={20} className="icon-magenta" />
+                        <h3>Loja Virtual</h3>
+                      </div>
+                      <div className="settings-content">
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Loja Ativa</span>
+                            <span className="setting-desc">Visível para clientes</span>
+                          </div>
+                          <label className="toggle-switch">
+                            <input type="checkbox" defaultChecked />
+                            <span className="toggle-slider"></span>
+                          </label>
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">URL da Loja</span>
+                            <span className="setting-desc">sualoja.diix.com.br</span>
+                          </div>
+                          <button className="btn-outline">Editar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="settings-card">
+                      <div className="settings-header">
+                        <Bot size={20} className="icon-green" />
+                        <h3>Chatbot</h3>
+                      </div>
+                      <div className="settings-content">
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Chatbot Ativo</span>
+                            <span className="setting-desc">Respostas automáticas</span>
+                          </div>
+                          <label className="toggle-switch">
+                            <input type="checkbox" defaultChecked />
+                            <span className="toggle-slider"></span>
+                          </label>
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Tempo de Resposta</span>
+                            <span className="setting-desc">&lt; 1 segundo</span>
+                          </div>
+                          <button className="btn-outline">Configurar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="settings-card">
+                      <div className="settings-header">
+                        <CreditCard size={20} className="icon-cyan" />
+                        <h3>Pagamentos</h3>
+                      </div>
+                      <div className="settings-content">
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Pix</span>
+                            <span className="setting-desc">Chave cadastrada</span>
+                          </div>
+                          <CheckCircle2 size={20} className="icon-green" />
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Cartão de Crédito</span>
+                            <span className="setting-desc">Gateway configurado</span>
+                          </div>
+                          <CheckCircle2 size={20} className="icon-green" />
+                        </div>
+                        <div className="setting-item">
+                          <div className="setting-info">
+                            <span className="setting-label">Boleto</span>
+                            <span className="setting-desc">Banco registrado</span>
+                          </div>
+                          <CheckCircle2 size={20} className="icon-green" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Página de Ajuda */}
+              {activeTab === 'help' && (
+                <>
+                  <div className="content-header">
+                    <h2 className="flex-items-center gap-2">
+                      <HelpCircle size={24} className="icon-magenta" />
+                      Central de Ajuda
+                    </h2>
+                    <p>Encontre respostas e suporte para utilizar o DIixWhatsApp</p>
+                  </div>
+
+                  <div className="help-search-box">
+                    <Search size={20} />
+                    <input type="text" placeholder="Como podemos ajudar? Digite sua dúvida..." />
+                  </div>
+
+                  <div className="help-categories">
+                    <h3>Categorias</h3>
+                    <div className="help-grid">
+                      <div className="help-category-card">
+                        <ShoppingCart size={32} className="icon-green" />
+                        <h4>Pedidos</h4>
+                        <p>Gerencie pedidos, status e entregas</p>
+                        <span className="help-count">12 artigos</span>
+                      </div>
+                      <div className="help-category-card">
+                        <Package size={32} className="icon-cyan" />
+                        <h4>Produtos</h4>
+                        <p>Cadastre e organize seus produtos</p>
+                        <span className="help-count">8 artigos</span>
+                      </div>
+                      <div className="help-category-card">
+                        <Users size={32} className="icon-purple" />
+                        <h4>Clientes</h4>
+                        <p>Gerencie clientes e relacionamentos</p>
+                        <span className="help-count">10 artigos</span>
+                      </div>
+                      <div className="help-category-card">
+                        <MessageSquare size={32} className="icon-magenta" />
+                        <h4>Conversas</h4>
+                        <p>Atendimento e chatbot</p>
+                        <span className="help-count">15 artigos</span>
+                      </div>
+                      <div className="help-category-card">
+                        <Bot size={32} className="icon-green" />
+                        <h4>Automação</h4>
+                        <p>Fluxos automatizados de atendimento</p>
+                        <span className="help-count">9 artigos</span>
+                      </div>
+                      <div className="help-category-card">
+                        <DollarSign size={32} className="icon-cyan" />
+                        <h4>Financeiro</h4>
+                        <p>Receitas, despesas e relatórios</p>
+                        <span className="help-count">7 artigos</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="help-faq">
+                    <h3>Perguntas Frequentes</h3>
+                    <div className="faq-list">
+                      <details className="faq-item">
+                        <summary>
+                          <Info size={18} className="icon-blue" />
+                          <span>Como configurar meu primeiro fluxo de automação?</span>
+                        </summary>
+                        <p>Acesse a página de Automação, clique em "Novo Fluxo", escolha o tipo de fluxo e configure as mensagens e gatilhos desejados.</p>
+                      </details>
+                      <details className="faq-item">
+                        <summary>
+                          <Info size={18} className="icon-cyan" />
+                          <span>Como integrar com meu WhatsApp Business?</span>
+                        </summary>
+                        <p>Vá em Configurações &gt; Integrações, selecione WhatsApp Business e siga as instruções para conectar seu número.</p>
+                      </details>
+                      <details className="faq-item">
+                        <summary>
+                          <Info size={18} className="icon-purple" />
+                          <span>Como exportar relatórios em PDF ou Excel?</span>
+                        </summary>
+                        <p>Na página de Relatórios, utilize os botões "Exportar PDF" ou "Exportar Excel" no topo da página para baixar seus dados.</p>
+                      </details>
+                      <details className="faq-item">
+                        <summary>
+                          <Info size={18} className="icon-magenta" />
+                          <span>Como ativar a loja virtual?</span>
+                        </summary>
+                        <p>Em Configurações &gt; Loja Virtual, ative a opção "Loja Ativa" e personalize sua URL de acesso.</p>
+                      </details>
+                      <details className="faq-item">
+                        <summary>
+                          <Info size={18} className="icon-green" />
+                          <span>Quais formas de pagamento estão disponíveis?</span>
+                        </summary>
+                        <p>O sistema suporta Pix, Cartão de Crédito, Boleto e pode ser integrado com principais gateways de pagamento.</p>
+                      </details>
+                    </div>
+                  </div>
+
+                  <div className="help-contact">
+                    <h3>Precisa de mais ajuda?</h3>
+                    <p>Nossa equipe está pronta para atender você</p>
+                    <div className="contact-options">
+                      <button className="contact-btn">
+                        <Mail size={20} />
+                        <span>Email</span>
+                      </button>
+                      <button className="contact-btn">
+                        <Phone size={20} />
+                        <span>Telefone</span>
+                      </button>
+                      <button className="contact-btn">
+                        <MessageSquare size={20} />
+                        <span>Chat Online</span>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
