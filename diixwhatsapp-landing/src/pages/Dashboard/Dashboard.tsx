@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   TrendingUp, 
@@ -34,7 +34,9 @@ import {
   Mail,
   Phone,
   CheckCircle2,
-  Info
+  Info,
+  Sun,
+  Wifi
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -67,10 +69,12 @@ import ConversationsPage from './components/ConversationsPage';
 import StorePage from './components/StorePage';
 import AutomationPage from './components/AutomationPage';
 import FinancialPage from './components/FinancialPage';
+import { useToast } from '../../components/Toast/Toast';
 import './Dashboard.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const toast = useToast();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [showNotifications, setShowNotifications] = useState(false);
@@ -84,6 +88,46 @@ const Dashboard = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [searchHelpQuery, setSearchHelpQuery] = useState('');
   const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  // Dark mode persistence
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  // Online/Offline detection
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true);
+      toast.addToast('Conexão restabelecida!', 'success', 3000);
+    };
+    const handleOffline = () => {
+      setIsOnline(false);
+      toast.addToast('Você está offline. Algumas funcionalidades podem não estar disponíveis.', 'warning', 5000);
+    };
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [toast]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    toast.addToast(`Modo ${!isDarkMode ? 'escuro' : 'claro'} ativado`, 'info', 2000);
+  };
 
   const faqItems = [
     {
@@ -156,14 +200,14 @@ const Dashboard = () => {
     console.log(`Exporting report as ${format}...`);
     setTimeout(() => {
       setIsExporting(false);
-      alert(`Relatório exportado com sucesso em formato ${format.toUpperCase()}!`);
+      toast.addToast(`Relatório exportado com sucesso em formato ${format.toUpperCase()}!`, 'success', 3000);
     }, 1500);
   };
 
   const handleFilterChange = (filterType: string, value: string) => {
     if (filterType === 'period') setReportPeriod(value);
     if (filterType === 'type') setReportType(value);
-    console.log(`Filter updated: ${filterType} = ${value}`);
+    toast.addToast('Filtro atualizado', 'info', 2000);
   };
 
   return (
@@ -222,9 +266,24 @@ const Dashboard = () => {
           </div>
 
           <div className="top-bar-right">
+            {/* Online/Offline Indicator */}
+            <div className={`connection-status ${isOnline ? 'online' : 'offline'}`} title={isOnline ? 'Online' : 'Offline'}>
+              <Wifi size={16} />
+            </div>
+
+            {/* Dark Mode Toggle */}
+            <button 
+              className="theme-toggle-btn"
+              onClick={toggleDarkMode}
+              aria-label={isDarkMode ? 'Ativar modo claro' : 'Ativar modo escuro'}
+            >
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
             <button 
               className="notification-btn"
               onClick={() => setShowNotifications(!showNotifications)}
+              aria-label="Notificações"
             >
               <Bell size={20} />
               <span className="notification-badge">{notifications.filter(n => !n.read).length}</span>
