@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { 
   MessageSquare, 
   Search, 
@@ -10,10 +10,92 @@ import {
   Paperclip,
   Smile,
   CheckCheck,
-  User
+  User,
+  ArrowLeft
 } from 'lucide-react';
-import { activeConversations } from '../../../data/dashboard';
 import '../Dashboard.css';
+
+interface Message {
+  id: string;
+  text: string;
+  sender: 'user' | 'customer';
+  timestamp: string;
+  status?: 'sent' | 'delivered' | 'read';
+}
+
+interface Conversation {
+  id: string;
+  customer: string;
+  lastMessage: string;
+  time: string;
+  unread: number;
+  messages: Message[];
+  online: boolean;
+}
+
+const mockConversations: Conversation[] = [
+  {
+    id: '1',
+    customer: 'Carlos Mendes',
+    lastMessage: 'Gostaria de ver os produtos disponíveis',
+    time: '2min atrás',
+    unread: 2,
+    online: true,
+    messages: [
+      { id: '1', text: 'Olá! Gostaria de ver os produtos disponíveis.', sender: 'customer', timestamp: '10:32' },
+      { id: '2', text: 'Olá! 👋 Seja bem-vindo à nossa loja.', sender: 'user', timestamp: '10:32', status: 'read' },
+      { id: '3', text: 'Escolha uma opção:\n1. Ver produtos\n2. Fazer pedido\n3. Acompanhar pedido\n4. Falar com atendente', sender: 'user', timestamp: '10:32', status: 'read' },
+      { id: '4', text: 'Quero ver os produtos da categoria de eletrônicos.', sender: 'customer', timestamp: '10:35' },
+    ]
+  },
+  {
+    id: '2',
+    customer: 'Fernanda Lima',
+    lastMessage: 'Qual o prazo de entrega?',
+    time: '5min atrás',
+    unread: 1,
+    online: true,
+    messages: [
+      { id: '1', text: 'Oi, qual o prazo de entrega para São Paulo?', sender: 'customer', timestamp: '11:15' },
+    ]
+  },
+  {
+    id: '3',
+    customer: 'Roberto Alves',
+    lastMessage: 'Preciso de ajuda com meu pedido',
+    time: '12min atrás',
+    unread: 0,
+    online: false,
+    messages: [
+      { id: '1', text: 'Preciso de ajuda com meu pedido #ORD-123', sender: 'customer', timestamp: '09:45' },
+      { id: '2', text: 'Claro! Vou verificar seu pedido agora mesmo.', sender: 'user', timestamp: '09:46', status: 'delivered' },
+    ]
+  },
+  {
+    id: '4',
+    customer: 'Patrícia Souza',
+    lastMessage: 'Tem desconto para atacado?',
+    time: '18min atrás',
+    unread: 1,
+    online: true,
+    messages: [
+      { id: '1', text: 'Vocês têm desconto para compras no atacado?', sender: 'customer', timestamp: '14:20' },
+    ]
+  },
+  {
+    id: '5',
+    customer: 'Marcos Henrique',
+    lastMessage: 'Quero cancelar meu pedido',
+    time: '25min atrás',
+    unread: 3,
+    online: false,
+    messages: [
+      { id: '1', text: 'Quero cancelar meu pedido', sender: 'customer', timestamp: '13:50' },
+      { id: '2', text: 'Pode me informar o número do pedido?', sender: 'customer', timestamp: '13:51' },
+      { id: '3', text: 'É urgente!', sender: 'customer', timestamp: '13:52' },
+    ]
+  },
+];
 
 interface ConversationsPageProps {
   searchTerm: string;
@@ -24,8 +106,11 @@ const ConversationsPage = ({ searchTerm, setSearchTerm }: ConversationsPageProps
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
   const [messageInput, setMessageInput] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [conversations, setConversations] = useState<Conversation[]>(mockConversations);
+  const [showMobileList, setShowMobileList] = useState(true);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const filteredConversations = activeConversations.filter(conv => {
+  const filteredConversations = conversations.filter(conv => {
     const matchesSearch = conv.customer.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          conv.lastMessage.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterStatus === 'all' || 
@@ -34,25 +119,85 @@ const ConversationsPage = ({ searchTerm, setSearchTerm }: ConversationsPageProps
     return matchesSearch && matchesFilter;
   });
 
-  const selectedConv = activeConversations.find(c => c.id === selectedConversation);
+  const selectedConv = conversations.find(c => c.id === selectedConversation);
 
   const handleSendMessage = () => {
-    if (messageInput.trim()) {
-      console.log('Sending message:', messageInput);
+    if (messageInput.trim() && selectedConversation) {
+      const newMessage: Message = {
+        id: Date.now().toString(),
+        text: messageInput,
+        sender: 'user',
+        timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+        status: 'sent'
+      };
+
+      setConversations(prev => prev.map(conv => {
+        if (conv.id === selectedConversation) {
+          return {
+            ...conv,
+            messages: [...conv.messages, newMessage],
+            lastMessage: messageInput,
+            time: 'Agora'
+          };
+        }
+        return conv;
+      }));
+
       setMessageInput('');
+      
+      // Simula resposta automática após 2 segundos
+      setTimeout(() => {
+        const autoReply: Message = {
+          id: (Date.now() + 1).toString(),
+          text: 'Obrigado pelo contato! Em breve um de nossos atendentes irá responder. 🤖',
+          sender: 'customer',
+          timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+        };
+
+        setConversations(prev => prev.map(conv => {
+          if (conv.id === selectedConversation) {
+            return {
+              ...conv,
+              messages: [...conv.messages, autoReply],
+              lastMessage: autoReply.text,
+              time: 'Agora'
+            };
+          }
+          return conv;
+        }));
+      }, 2000);
     }
   };
+
+  const handleSelectConversation = (id: string) => {
+    setSelectedConversation(id);
+    setShowMobileList(false);
+    
+    // Mark as read
+    setConversations(prev => prev.map(conv => {
+      if (conv.id === id) {
+        return { ...conv, unread: 0 };
+      }
+      return conv;
+    }));
+  };
+
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedConv?.messages]);
 
   return (
     <div className="dashboard-content">
       <div className="content-header">
         <h2>Conversas</h2>
-        <p>Gerencie todas as conversas com seus clientes</p>
+        <p>Gerencie todas as conversas com seus clientes - Estilo WhatsApp</p>
       </div>
 
       <div className="conversations-container">
         {/* Conversations List */}
-        <div className="conversations-list-panel">
+        <div className={`conversations-list-panel ${showMobileList ? 'mobile-visible' : ''}`}>
           <div className="conversations-header">
             <div className="search-box">
               <Search size={18} />
@@ -81,7 +226,7 @@ const ConversationsPage = ({ searchTerm, setSearchTerm }: ConversationsPageProps
               <div 
                 key={conv.id} 
                 className={`conversation-list-item ${selectedConversation === conv.id ? 'selected' : ''}`}
-                onClick={() => setSelectedConversation(conv.id)}
+                onClick={() => handleSelectConversation(conv.id)}
               >
                 <div className="conversation-avatar">
                   <User size={24} />
@@ -107,12 +252,21 @@ const ConversationsPage = ({ searchTerm, setSearchTerm }: ConversationsPageProps
             <>
               <div className="chat-header">
                 <div className="chat-header-info">
+                  <button 
+                    className="chat-action-btn mobile-only"
+                    onClick={() => setShowMobileList(true)}
+                    style={{ display: 'none' }}
+                  >
+                    <ArrowLeft size={20} />
+                  </button>
                   <div className="conversation-avatar-large">
                     <User size={32} />
                   </div>
                   <div>
                     <h3>{selectedConv?.customer}</h3>
-                    <span className="chat-status">Online agora</span>
+                    <span className="chat-status">
+                      {selectedConv?.online ? 'Online agora' : 'Visto por último hoje'}
+                    </span>
                   </div>
                 </div>
                 <div className="chat-actions">
@@ -129,35 +283,23 @@ const ConversationsPage = ({ searchTerm, setSearchTerm }: ConversationsPageProps
               </div>
 
               <div className="chat-messages">
-                <div className="message received">
-                  <div className="message-bubble">
-                    <p>Olá! Gostaria de ver os produtos disponíveis.</p>
-                    <span className="message-time">10:32</span>
+                {selectedConv?.messages.map((msg) => (
+                  <div 
+                    key={msg.id} 
+                    className={`message ${msg.sender === 'user' ? 'sent' : 'received'}`}
+                  >
+                    <div className="message-bubble">
+                      <p>{msg.text}</p>
+                      <span className="message-time">
+                        {msg.timestamp}
+                        {msg.sender === 'user' && msg.status && (
+                          <CheckCheck size={14} className={`message-check ${msg.status === 'read' ? 'text-blue-400' : ''}`} />
+                        )}
+                      </span>
+                    </div>
                   </div>
-                </div>
-
-                <div className="message sent">
-                  <div className="message-bubble">
-                    <p>Olá! 👋 Seja bem-vindo à nossa loja.</p>
-                    <span className="message-time">10:32</span>
-                    <CheckCheck size={14} className="message-check" />
-                  </div>
-                </div>
-
-                <div className="message sent">
-                  <div className="message-bubble">
-                    <p>Escolha uma opção:<br/>1. Ver produtos<br/>2. Fazer pedido<br/>3. Acompanhar pedido<br/>4. Falar com atendente</p>
-                    <span className="message-time">10:32</span>
-                    <CheckCheck size={14} className="message-check" />
-                  </div>
-                </div>
-
-                <div className="message received">
-                  <div className="message-bubble">
-                    <p>Quero ver os produtos da categoria de eletrônicos.</p>
-                    <span className="message-time">10:35</span>
-                  </div>
-                </div>
+                ))}
+                <div ref={messagesEndRef} />
               </div>
 
               <div className="chat-input-area">
