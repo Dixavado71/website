@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { X, Mail, Lock, Eye, EyeOff } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { useI18n } from '../../contexts/I18nContext';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -9,6 +11,8 @@ interface LoginModalProps {
 
 const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const navigate = useNavigate();
+  const { login } = useAuth();
+  const { t } = useI18n();
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [email, setEmail] = useState('');
@@ -21,8 +25,15 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simula login com qualquer valor
     setTimeout(() => {
+      login(email);
+      
+      if (rememberMe) {
+        localStorage.setItem('rememberedEmail', email);
+      } else {
+        localStorage.removeItem('rememberedEmail');
+      }
+      
       setIsLoading(false);
       onClose();
       navigate('/dashboard');
@@ -31,15 +42,12 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/80 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="relative w-full max-w-md glass rounded-2xl p-8 border border-white/10 glow-green animate-in fade-in zoom-in duration-300">
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
@@ -47,22 +55,19 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
           <X size={20} />
         </button>
 
-        {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold gradient-text mb-2">
-            Bem-vindo de volta
+            {t('auth.welcome_back')}
           </h2>
           <p className="text-gray-400 text-sm">
-            Acesse sua conta para continuar
+            {t('auth.login_account')}
           </p>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleLogin} className="space-y-6">
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              E-mail
+              {t('auth.email')}
             </label>
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
@@ -77,10 +82,9 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
           </div>
 
-          {/* Senha */}
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-2">
-              Senha
+              {t('auth.password')}
             </label>
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={18} />
@@ -102,7 +106,6 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
             </div>
           </div>
 
-          {/* Remember me & Forgot password */}
           <div className="flex items-center justify-between">
             <label className="flex items-center cursor-pointer">
               <input
@@ -111,29 +114,27 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
                 onChange={(e) => setRememberMe(e.target.checked)}
                 className="w-4 h-4 rounded border-gray-600 bg-surface text-primary focus:ring-primary focus:ring-offset-0"
               />
-              <span className="ml-2 text-sm text-gray-400">Lembrar de mim</span>
+              <span className="ml-2 text-sm text-gray-400">{t('auth.remember_me')}</span>
             </label>
             <a href="#" className="text-sm text-primary hover:text-primary/80 transition-colors">
-              Esqueci minha senha
+              {t('auth.forgot_password')}
             </a>
           </div>
 
-          {/* Submit button */}
           <button
             type="submit"
             disabled={isLoading}
             className="w-full py-3 px-4 bg-primary hover:bg-primary/90 text-black font-semibold rounded-lg transition-all duration-200 glow-green disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Entrando...' : 'Entrar'}
+            {isLoading ? `${t('common.loading')}` : t('auth.login')}
           </button>
         </form>
 
-        {/* Footer */}
         <div className="mt-6 text-center">
           <p className="text-gray-400 text-sm">
-            Não tem uma conta?{' '}
+            {t('auth.no_account')}{' '}
             <a href="#" className="text-primary hover:text-primary/80 transition-colors font-medium">
-              Criar conta
+              {t('auth.create_account')}
             </a>
           </p>
         </div>
