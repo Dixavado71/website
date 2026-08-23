@@ -15,6 +15,38 @@ import Sidebar from './Sidebar';
 import NodeConfigPanel from './NodeConfigPanel';
 import './FlowBuilder.css';
 
+// Move helper functions outside component to avoid initialization issues
+const getNodeLabel = (type: string) => {
+  const labels: Record<string, string> = {
+    trigger: 'Gatilho',
+    message: 'Mensagem',
+    condition: 'Condição',
+    delay: 'Atraso',
+    action: 'Ação',
+    webhook: 'Webhook',
+  };
+  return labels[type] || 'Nó';
+};
+
+const getDefaultConfig = (type: string) => {
+  switch (type) {
+    case 'trigger':
+      return { triggerType: 'keyword', keyword: '' };
+    case 'message':
+      return { message: '', mediaUrl: '' };
+    case 'condition':
+      return { conditions: [] };
+    case 'delay':
+      return { delay: 5 };
+    case 'action':
+      return { actionType: 'tag', tagName: '' };
+    case 'webhook':
+      return { url: '', method: 'POST' };
+    default:
+      return {};
+  }
+};
+
 const nodeTypes = {
   custom: CustomNode,
 };
@@ -112,37 +144,6 @@ export default function FlowBuilder() {
     },
     [addNode]
   );
-
-  const getNodeLabel = (type: string) => {
-    const labels: Record<string, string> = {
-      trigger: 'Gatilho',
-      message: 'Mensagem',
-      condition: 'Condição',
-      delay: 'Atraso',
-      action: 'Ação',
-      webhook: 'Webhook',
-    };
-    return labels[type] || 'Nó';
-  };
-
-  const getDefaultConfig = (type: string) => {
-    switch (type) {
-      case 'trigger':
-        return { triggerType: 'keyword', keyword: '' };
-      case 'message':
-        return { message: '', mediaUrl: '' };
-      case 'condition':
-        return { conditions: [] };
-      case 'delay':
-        return { delay: 5 };
-      case 'action':
-        return { actionType: 'tag', tagName: '' };
-      case 'webhook':
-        return { url: '', method: 'POST' };
-      default:
-        return {};
-    }
-  };
 
   return (
     <div className="flow-builder-container">
