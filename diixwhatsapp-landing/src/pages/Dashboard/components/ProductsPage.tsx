@@ -1,4 +1,4 @@
-import { Package, Filter, Download, Plus, Search, Edit, Trash2, AlertCircle, Tag, TrendingUp, CheckCircle } from 'lucide-react';
+import { Package, Filter, Download, Plus, Search, Edit, Trash2, AlertCircle, Tag, TrendingUp, CheckCircle, MessageCircle } from 'lucide-react';
 import { products } from '../../../data/dashboard';
 
 interface ProductsPageProps {
@@ -42,7 +42,7 @@ const ProductsPage = ({ searchTerm, setSearchTerm, productStatusFilter, setProdu
       <div className="content-header">
         <div>
           <h2>Produtos</h2>
-          <p>Gerencie seu catálogo de produtos</p>
+          <p>Gerencie seu catálogo de produtos e vendas</p>
         </div>
         <button className="btn-primary">
           <Plus size={20} />
@@ -129,6 +129,9 @@ const ProductsPage = ({ searchTerm, setSearchTerm, productStatusFilter, setProdu
                 </button>
                 <button className="action-btn-sm" title="Excluir">
                   <Trash2 size={14} />
+                </button>
+                <button className="action-btn-sm action-chat" title="Divulgar Produto">
+                  <MessageCircle size={14} />
                 </button>
               </div>
             </div>

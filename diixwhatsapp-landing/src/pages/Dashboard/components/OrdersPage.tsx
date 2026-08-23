@@ -1,4 +1,4 @@
-import { ShoppingCart, Filter, Download, Plus, Search, Eye, Edit, Trash2, CheckCircle, Clock, AlertCircle, XCircle } from 'lucide-react';
+import { ShoppingCart, Filter, Download, Plus, Search, Eye, Edit, Trash2, CheckCircle, Clock, AlertCircle, XCircle, MessageCircle } from 'lucide-react';
 import { allOrders } from '../../../data/dashboard';
 
 interface OrdersPageProps {
@@ -54,7 +54,7 @@ const OrdersPage = ({ searchTerm, setSearchTerm, orderStatusFilter, setOrderStat
       <div className="content-header">
         <div>
           <h2>Pedidos</h2>
-          <p>Gerencie todos os pedidos da sua loja</p>
+          <p>Gerencie todos os pedidos e envios da sua loja</p>
         </div>
         <button className="btn-primary">
           <Plus size={20} />
@@ -165,6 +165,9 @@ const OrdersPage = ({ searchTerm, setSearchTerm, orderStatusFilter, setOrderStat
                     </button>
                     <button className="action-btn" title="Editar">
                       <Edit size={16} />
+                    </button>
+                    <button className="action-btn action-chat" title="Enviar Mensagem ao Cliente">
+                      <MessageCircle size={16} />
                     </button>
                     <button className="action-btn" title="Excluir">
                       <Trash2 size={16} />

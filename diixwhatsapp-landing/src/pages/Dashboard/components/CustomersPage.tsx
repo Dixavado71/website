@@ -1,4 +1,4 @@
-import { Users, Filter, Download, Plus, Search, Mail, Phone, Calendar, TrendingUp, Tag, ShoppingCart, CheckCircle, Eye, Edit, Trash2 } from 'lucide-react';
+import { Users, Filter, Download, Plus, Search, Mail, Phone, Calendar, TrendingUp, Tag, ShoppingCart, CheckCircle, Eye, Edit, Trash2, MessageCircle } from 'lucide-react';
 import { customers } from '../../../data/dashboard';
 
 interface CustomersPageProps {
@@ -44,7 +44,7 @@ const CustomersPage = ({ searchTerm, setSearchTerm, customerSegmentFilter, setCu
       <div className="content-header">
         <div>
           <h2>Clientes</h2>
-          <p>Gerencie sua base de clientes</p>
+          <p>Gerencie sua base de clientes e relacionamentos</p>
         </div>
         <button className="btn-primary">
           <Plus size={20} />
@@ -185,6 +185,9 @@ const CustomersPage = ({ searchTerm, setSearchTerm, customerSegmentFilter, setCu
                     </button>
                     <button className="action-btn" title="Editar">
                       <Edit size={16} />
+                    </button>
+                    <button className="action-btn action-chat" title="Enviar Mensagem">
+                      <MessageCircle size={16} />
                     </button>
                     <button className="action-btn" title="Excluir">
                       <Trash2 size={16} />
