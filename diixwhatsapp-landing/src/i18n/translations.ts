@@ -130,6 +130,26 @@ export interface Translation {
     flows_active: string;
     messages_sent: string;
   };
+  flow: {
+    builder: string;
+    save: string;
+    load: string;
+    export: string;
+    import: string;
+    validate: string;
+    clear: string;
+    saved: string;
+    no_saved_flow: string;
+    confirm_clear: string;
+  };
+  nodes: {
+    trigger: string;
+    message: string;
+    condition: string;
+    delay: string;
+    action: string;
+    webhook: string;
+  };
   reports: {
     title: string;
     description: string;
@@ -208,6 +228,26 @@ export const translations: Record<string, Translation> = {
       flows_active: 'Fluxos Ativos',
       messages_sent: 'Mensagens Enviadas',
     },
+    flow: {
+      builder: 'Construtor de Fluxo',
+      save: 'Salvar',
+      load: 'Carregar',
+      export: 'Exportar',
+      import: 'Importar',
+      validate: 'Validar',
+      clear: 'Limpar',
+      saved: 'Fluxo salvo com sucesso!',
+      no_saved_flow: 'Nenhum fluxo salvo encontrado',
+      confirm_clear: 'Tem certeza que deseja limpar o fluxo atual?',
+    },
+    nodes: {
+      trigger: 'Gatilho',
+      message: 'Mensagem',
+      condition: 'Condição',
+      delay: 'Atraso',
+      action: 'Ação',
+      webhook: 'Webhook',
+    },
     reports: {
       title: 'Relatórios',
       description: 'Analise o desempenho do seu negócio',
@@ -283,6 +323,26 @@ export const translations: Record<string, Translation> = {
       flows_total: 'Total Flows',
       flows_active: 'Active Flows',
       messages_sent: 'Messages Sent',
+    },
+    flow: {
+      builder: 'Flow Builder',
+      save: 'Save',
+      load: 'Load',
+      export: 'Export',
+      import: 'Import',
+      validate: 'Validate',
+      clear: 'Clear',
+      saved: 'Flow saved successfully!',
+      no_saved_flow: 'No saved flow found',
+      confirm_clear: 'Are you sure you want to clear the current flow?',
+    },
+    nodes: {
+      trigger: 'Trigger',
+      message: 'Message',
+      condition: 'Condition',
+      delay: 'Delay',
+      action: 'Action',
+      webhook: 'Webhook',
     },
     reports: {
       title: 'Reports',
@@ -360,19 +420,6 @@ export const translations: Record<string, Translation> = {
       flows_active: 'Flujos Activos',
       messages_sent: 'Mensajes Enviados',
     },
-    reports: {
-      title: 'Informes',
-      description: 'Analiza el rendimiento de tu negocio',
-    },
-    dashboard: {
-      overview: 'Visión General',
-      performance: 'Rendimiento',
-      recent_orders: 'Pedidos Recientes',
-      top_products: 'Productos Más Vendidos',
-      customer_segments: 'Segmentos de Clientes',
-    },
-    
-    // Flow Builder
     flow: {
       builder: 'Constructor de Flujo',
       save: 'Guardar',
@@ -388,24 +435,21 @@ export const translations: Record<string, Translation> = {
     nodes: {
       trigger: 'Disparador',
       message: 'Mensaje',
-      condition: 'Condición',
+      condition: 'Condicional',
       delay: 'Retraso',
       action: 'Acción',
       webhook: 'Webhook',
     },
-    nodeConfig: {
-      configure: 'Configurar Nodo',
-      label: 'Etiqueta',
-      delete: 'Eliminar Nodo',
-      keyword: 'Palabra clave',
-      message: 'Mensaje',
-      mediaUrl: 'URL de Multimedia',
-      delaySeconds: 'Retraso (segundos)',
-      actionType: 'Tipo de Acción',
-      tagName: 'Nombre de la Etiqueta',
-      webhookUrl: 'URL del Webhook',
-      httpMethod: 'Método HTTP',
-      conditions: 'Condiciones',
+    reports: {
+      title: 'Informes',
+      description: 'Analiza el rendimiento de tu negocio',
+    },
+    dashboard: {
+      overview: 'Visión General',
+      performance: 'Rendimiento',
+      recent_orders: 'Pedidos Recientes',
+      top_products: 'Productos Más Vendidos',
+      customer_segments: 'Segmentos de Clientes',
     },
   },
 };

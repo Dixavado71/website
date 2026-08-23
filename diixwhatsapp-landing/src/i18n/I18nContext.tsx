@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { translations, Language, TranslationKey } from '../i18n/translations';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+import { translations, type Language, type TranslationKey } from '../i18n/translations';
 
 interface I18nContextType {
   language: Language;
@@ -11,8 +11,8 @@ const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('language') as Language;
-    return saved || 'pt';
+    const saved = localStorage.getItem('language') as Language | null;
+    return (saved && translations[saved]) ? saved : 'pt';
   });
 
   useEffect(() => {

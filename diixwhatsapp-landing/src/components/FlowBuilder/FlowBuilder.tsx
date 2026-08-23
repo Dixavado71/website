@@ -11,6 +11,9 @@ import '@xyflow/react/dist/style.css';
 import type { NodeProps } from '@xyflow/react';
 import type { FlowNodeData } from '../../store/flowStore';
 import { useFlowStore } from '../../store/flowStore';
+import Sidebar from './Sidebar';
+import NodeConfigPanel from './NodeConfigPanel';
+import FlowToolbar from './FlowToolbar';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -157,44 +160,59 @@ export default function FlowBuilder() {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-140px)] bg-gray-50 dark:bg-gray-900">
-      <ReactFlow
-        nodes={nodes as any}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-        nodeTypes={nodeTypes}
-        fitView
-        snapToGrid
-        snapGrid={[15, 15]}
-        defaultEdgeOptions={{
-          type: 'smoothstep',
-          animated: true,
-          style: { stroke: '#3b82f6', strokeWidth: 2 },
-        }}
-        className="dark:[&_.react-flow__node]:text-white"
-      >
-        <Controls className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600" />
-        <MiniMap 
-          nodeColor={(node: any) => {
-            const type = node.data?.type as string;
-            const colors: Record<string, string> = {
-              trigger: '#eab308',
-              message: '#3b82f6',
-              condition: '#a855f7',
-              delay: '#f97316',
-              action: '#22c55e',
-              webhook: '#ec4899',
-            };
-            return colors[type] || '#6b7280';
-          }}
-          className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-        />
-        <Background color="#888" gap={16} />
-      </ReactFlow>
+    <div className="flex h-[calc(100vh-140px)] bg-gray-50 dark:bg-gray-900">
+      {/* Barra Lateral de Nós */}
+      <Sidebar />
+      
+      {/* Área Principal do Flow */}
+      <div className="flex-1 flex flex-col">
+        {/* Toolbar */}
+        <FlowToolbar />
+        
+        {/* Canvas do React Flow */}
+        <div className="flex-1">
+          <ReactFlow
+            nodes={nodes as any}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onDrop={onDrop}
+            onDragOver={onDragOver}
+            nodeTypes={nodeTypes}
+            fitView
+            snapToGrid
+            snapGrid={[15, 15]}
+            defaultEdgeOptions={{
+              type: 'smoothstep',
+              animated: true,
+              style: { stroke: '#3b82f6', strokeWidth: 2 },
+            }}
+            className="dark:[&_.react-flow__node]:text-white"
+          >
+            <Controls className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600" />
+            <MiniMap 
+              nodeColor={(node: any) => {
+                const type = node.data?.type as string;
+                const colors: Record<string, string> = {
+                  trigger: '#eab308',
+                  message: '#3b82f6',
+                  condition: '#a855f7',
+                  delay: '#f97316',
+                  action: '#22c55e',
+                  webhook: '#ec4899',
+                };
+                return colors[type] || '#6b7280';
+              }}
+              className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
+            />
+            <Background color="#888" gap={16} />
+          </ReactFlow>
+        </div>
+      </div>
+      
+      {/* Painel de Configuração */}
+      <NodeConfigPanel />
     </div>
   );
 }
