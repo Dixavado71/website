@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { 
-  FileText, 
   Download, 
   Calendar, 
   TrendingUp, 
@@ -33,16 +32,12 @@ import {
   Legend,
   BarChart,
   Bar,
-  LineChart,
-  Line
 } from 'recharts';
 import '../../../styles/index.css';
-
 interface ReportsPageProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
 }
-
 const revenueData = [
   { month: 'Jan', revenue: 12500, orders: 145, customers: 89 },
   { month: 'Fev', revenue: 15800, orders: 178, customers: 102 },
@@ -52,7 +47,6 @@ const revenueData = [
   { month: 'Jun', revenue: 28100, orders: 298, customers: 189 },
   { month: 'Jul', revenue: 31400, orders: 325, customers: 210 },
 ];
-
 const salesByCategory = [
   { name: 'Eletrônicos', value: 35, color: '#00FF88' },
   { name: 'Beleza', value: 25, color: '#00D4FF' },
@@ -60,7 +54,6 @@ const salesByCategory = [
   { name: 'Acessórios', value: 15, color: '#FF5ED6' },
   { name: 'Outros', value: 5, color: '#FFAA5E' },
 ];
-
 const dailyPerformance = [
   { day: 'Seg', conversations: 145, conversions: 32, revenue: 4200 },
   { day: 'Ter', conversations: 168, conversions: 38, revenue: 4850 },
@@ -70,14 +63,12 @@ const dailyPerformance = [
   { day: 'Sáb', conversations: 156, conversions: 35, revenue: 4500 },
   { day: 'Dom', conversations: 98, conversions: 22, revenue: 2900 },
 ];
-
 const customerBehavior = [
   { segment: 'Novos', percentage: 35, count: 245, trend: 'up' },
   { segment: 'Recorrentes', percentage: 45, count: 315, trend: 'up' },
   { segment: 'Inativos', percentage: 12, count: 84, trend: 'down' },
   { segment: 'VIP', percentage: 8, count: 56, trend: 'stable' },
 ];
-
 const topProducts = [
   { id: 1, name: 'iPhone 15 Pro', sales: 145, revenue: 724500, growth: 12.5 },
   { id: 2, name: 'MacBook Air M3', sales: 98, revenue: 686000, growth: 8.3 },
@@ -85,7 +76,6 @@ const topProducts = [
   { id: 4, name: 'Samsung S24 Ultra', sales: 112, revenue: 671888, growth: -3.2 },
   { id: 5, name: 'iPad Air 5', sales: 87, revenue: 304413, growth: 5.9 },
 ];
-
 const conversionFunnel = [
   { stage: 'Visitantes', value: 5000, color: '#00FF88' },
   { stage: 'Iniciaram Conversa', value: 3200, color: '#00D4FF' },
@@ -93,13 +83,11 @@ const conversionFunnel = [
   { stage: 'Adicionaram ao Carrinho', value: 890, color: '#FF5ED6' },
   { stage: 'Finalizaram Compra', value: 425, color: '#FFAA5E' },
 ];
-
 const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
   const [selectedPeriod, setSelectedPeriod] = useState('30d');
   const [selectedReport, setSelectedReport] = useState('overview');
   const [showFilters, setShowFilters] = useState(false);
   const [exportFormat, setExportFormat] = useState('pdf');
-
   const reportTypes = [
     { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
     { id: 'sales', label: 'Vendas', icon: ShoppingCart },
@@ -108,11 +96,9 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
     { id: 'financial', label: 'Financeiro', icon: DollarSign },
     { id: 'products', label: 'Produtos', icon: Package },
   ];
-
   const handleExport = () => {
     console.log(`Exportando relatório em ${exportFormat}...`);
   };
-
   return (
     <div className="dashboard-content">
       <div className="content-header">
@@ -175,7 +161,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
           </div>
         </div>
       </div>
-
       {/* Filters Panel */}
       {showFilters && (
         <div className="filters-panel">
@@ -210,7 +195,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
           <button className="btn-apply-filters">Aplicar Filtros</button>
         </div>
       )}
-
       {/* Report Type Tabs */}
       <div className="report-tabs">
         {reportTypes.map((type) => (
@@ -224,7 +208,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
           </button>
         ))}
       </div>
-
       {/* Key Metrics Cards */}
       <div className="reports-metrics-grid">
         <div className="report-metric-card glow-green">
@@ -239,7 +222,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
             </span>
           </div>
         </div>
-
         <div className="report-metric-card glow-cyan">
           <div className="metric-icon-wrapper icon-cyan">
             <ShoppingCart size={24} />
@@ -252,7 +234,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
             </span>
           </div>
         </div>
-
         <div className="report-metric-card glow-purple">
           <div className="metric-icon-wrapper icon-purple">
             <Users size={24} />
@@ -265,7 +246,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
             </span>
           </div>
         </div>
-
         <div className="report-metric-card glow-magenta">
           <div className="metric-icon-wrapper icon-magenta">
             <MessageSquare size={24} />
@@ -279,7 +259,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
           </div>
         </div>
       </div>
-
       {/* Main Charts Section */}
       <div className="reports-charts-section">
         {/* Revenue Evolution Chart */}
@@ -329,7 +308,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
             </ResponsiveContainer>
           </div>
         </div>
-
         {/* Secondary Charts Row */}
         <div className="reports-secondary-grid">
           {/* Sales by Category */}
@@ -379,7 +357,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
               </div>
             </div>
           </div>
-
           {/* Daily Performance */}
           <div className="report-chart-card glow-purple">
             <div className="chart-header">
@@ -411,7 +388,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
             </div>
           </div>
         </div>
-
         {/* Conversion Funnel */}
         <div className="report-chart-card full-width glow-magenta">
           <div className="chart-header">
@@ -440,7 +416,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
             ))}
           </div>
         </div>
-
         {/* Top Products Table */}
         <div className="report-chart-card full-width glow-green">
           <div className="chart-header">
@@ -474,7 +449,6 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
             ))}
           </div>
         </div>
-
         {/* Customer Behavior */}
         <div className="report-chart-card full-width glow-cyan">
           <div className="chart-header">
@@ -512,5 +486,4 @@ const ReportsPage = ({ searchTerm, setSearchTerm }: ReportsPageProps) => {
     </div>
   );
 };
-
 export default ReportsPage;

@@ -25,7 +25,8 @@ import {
   Eye,
   Edit,
   Zap,
-  ArrowUpRight
+  ArrowUpRight,
+  Mail
 } from 'lucide-react';
 import { 
   AreaChart, 
