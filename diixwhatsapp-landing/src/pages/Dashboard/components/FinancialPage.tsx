@@ -12,7 +12,14 @@ import {
   Edit,
   Trash2,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  PieChart,
+  BarChart3,
+  Wallet,
+  Receipt,
+  FileText,
+  XCircle,
+  CheckCircle2
 } from 'lucide-react';
 import '../Dashboard.css';
 
@@ -46,11 +53,38 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
   const totalExpense = transactions.filter(t => t.type === 'expense').reduce((acc, t) => acc + t.value, 0);
   const balance = totalIncome - totalExpense;
 
+  const paymentMethods = [
+    { name: 'Cartão de Crédito', value: 3455.00, percentage: 78, icon: CreditCard },
+    { name: 'Pix', value: 890.00, percentage: 20, icon: DollarSign },
+    { name: 'Boleto', value: 88.00, percentage: 2, icon: Receipt },
+  ];
+
+  const exportReport = (format: string) => {
+    console.log(`Exporting financial report as ${format}...`);
+  };
+
   return (
     <div className="dashboard-content">
       <div className="content-header">
-        <h2>Financeiro</h2>
-        <p>Acompanhe receitas, despesas e saldo da sua empresa</p>
+        <div className="header-title-group">
+          <div className="header-icon-wrapper icon-cyan-bg">
+            <Wallet size={24} />
+          </div>
+          <div>
+            <h2>Financeiro</h2>
+            <p>Acompanhe receitas, despesas e saldo da sua empresa</p>
+          </div>
+        </div>
+        <div className="header-actions-group">
+          <button className="btn-outline" onClick={() => exportReport('pdf')}>
+            <FileText size={18} />
+            PDF
+          </button>
+          <button className="btn-outline" onClick={() => exportReport('excel')}>
+            <Download size={18} />
+            Excel
+          </button>
+        </div>
       </div>
 
       {/* Metrics */}
@@ -97,6 +131,75 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
           </div>
           <div className="metric-value">R$ 489,00</div>
           <div className="metric-change positive">+7.8% vs mês anterior</div>
+        </div>
+      </div>
+
+      {/* Charts Section */}
+      <div className="charts-section">
+        <div className="chart-card glow-green">
+          <div className="chart-header">
+            <h3>
+              <BarChart3 size={20} className="icon-green" />
+              Receitas vs Despesas
+            </h3>
+          </div>
+          <div className="chart-placeholder">
+            <div className="bar-chart-comparison">
+              <div className="bar-group">
+                <div className="bar-label">Receitas</div>
+                <div 
+                  className="bar-income"
+                  style={{ width: `${(totalIncome / 5000) * 100}%` }}
+                >
+                  <span>R$ {totalIncome.toFixed(0)}</span>
+                </div>
+              </div>
+              <div className="bar-group">
+                <div className="bar-label">Despesas</div>
+                <div 
+                  className="bar-expense"
+                  style={{ width: `${(totalExpense / 5000) * 100}%` }}
+                >
+                  <span>R$ {totalExpense.toFixed(0)}</span>
+                </div>
+              </div>
+              <div className="bar-group">
+                <div className="bar-label">Saldo</div>
+                <div 
+                  className="bar-balance"
+                  style={{ width: `${(balance / 5000) * 100}%` }}
+                >
+                  <span>R$ {balance.toFixed(0)}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="chart-card glow-purple">
+          <div className="chart-header">
+            <h3>
+              <PieChart size={20} className="icon-purple" />
+              Métodos de Pagamento
+            </h3>
+          </div>
+          <div className="chart-placeholder">
+            <div className="pie-chart-container">
+              <div className="pie-chart">
+                <div className="pie-segment segment-cartao"></div>
+                <div className="pie-segment segment-pix"></div>
+                <div className="pie-segment segment-boleto"></div>
+              </div>
+              <div className="pie-legend">
+                {paymentMethods.map((method, index) => (
+                  <div key={index} className="legend-item">
+                    <span className={`legend-color legend-${method.name.toLowerCase().split(' ')[0]}`}></span>
+                    <span>{method.name} ({method.percentage}%)</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -148,9 +251,12 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
       {/* Transactions Table */}
       <div className="transactions-card glow-cyan">
         <div className="chart-header">
-          <h3>Transações Recentes</h3>
+          <h3>
+            <Receipt size={20} className="icon-cyan" />
+            Transações Recentes
+          </h3>
           <div className="header-actions">
-            <button className="btn-outline">
+            <button className="btn-outline" onClick={() => exportReport('csv')}>
               <Download size={16} />
               Exportar
             </button>
@@ -179,7 +285,17 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
                 {new Date(transaction.date).toLocaleDateString('pt-BR')}
               </span>
               <span className={`transaction-status status-${transaction.status}`}>
-                {transaction.status === 'completed' ? 'Concluído' : 'Pendente'}
+                {transaction.status === 'completed' ? (
+                  <>
+                    <CheckCircle2 size={12} />
+                    Concluído
+                  </>
+                ) : (
+                  <>
+                    <XCircle size={12} />
+                    Pendente
+                  </>
+                )}
               </span>
               <span className={`transaction-value ${transaction.type === 'income' ? 'value-income' : 'value-expense'}`}>
                 {transaction.type === 'income' ? '+' : '-'} R$ {transaction.value.toFixed(2).replace('.', ',')}
@@ -202,38 +318,24 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
 
       {/* Payment Methods */}
       <div className="payment-methods-grid">
-        <div className="payment-card">
-          <div className="payment-icon">
-            <CreditCard size={24} />
+        {paymentMethods.map((method, index) => (
+          <div key={index} className="payment-card">
+            <div className="payment-icon">
+              <method.icon size={24} />
+            </div>
+            <div className="payment-info">
+              <h4>{method.name}</h4>
+              <span>R$ {method.value.toFixed(2).replace('.', ',')}</span>
+              <span className="payment-percentage">{method.percentage}% do total</span>
+            </div>
+            <div className="payment-progress">
+              <div 
+                className={`payment-progress-bar payment-${method.name.toLowerCase().split(' ')[0]}`}
+                style={{ width: `${method.percentage}%` }}
+              ></div>
+            </div>
           </div>
-          <div className="payment-info">
-            <h4>Cartão de Crédito</h4>
-            <span>R$ 3.455,00</span>
-            <span className="payment-percentage">78% do total</span>
-          </div>
-        </div>
-
-        <div className="payment-card">
-          <div className="payment-icon">
-            <DollarSign size={24} />
-          </div>
-          <div className="payment-info">
-            <h4>Pix</h4>
-            <span>R$ 890,00</span>
-            <span className="payment-percentage">20% do total</span>
-          </div>
-        </div>
-
-        <div className="payment-card">
-          <div className="payment-icon">
-            <CreditCard size={24} />
-          </div>
-          <div className="payment-info">
-            <h4>Boleto</h4>
-            <span>R$ 88,00</span>
-            <span className="payment-percentage">2% do total</span>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

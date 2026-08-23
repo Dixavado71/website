@@ -13,7 +13,15 @@ import {
   TrendingUp,
   Users,
   Clock,
-  DollarSign
+  DollarSign,
+  BarChart3,
+  PieChart,
+  Activity,
+  Target,
+  Bot,
+  Workflow,
+  CheckCircle2,
+  Download
 } from 'lucide-react';
 import { automationFlows } from '../../../data/dashboard';
 import '../Dashboard.css';
@@ -58,11 +66,26 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
     console.log('Toggle flow:', flowId);
   };
 
+  const exportReport = () => {
+    console.log('Exporting automation report...');
+  };
+
   return (
     <div className="dashboard-content">
       <div className="content-header">
-        <h2>Automação</h2>
-        <p>Crie e gerencie fluxos automatizados de atendimento</p>
+        <div className="header-title-group">
+          <div className="header-icon-wrapper icon-magenta-bg">
+            <Workflow size={24} />
+          </div>
+          <div>
+            <h2>Automação</h2>
+            <p>Crie e gerencie fluxos automatizados de atendimento</p>
+          </div>
+        </div>
+        <button className="btn-outline" onClick={exportReport}>
+          <Download size={18} />
+          Exportar Relatório
+        </button>
       </div>
 
       {/* Metrics */}
@@ -82,7 +105,7 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
           <div className="metric-header">
             <span className="metric-label">Fluxos Ativos</span>
             <div className="metric-icon icon-green">
-              <Play size={18} />
+              <CheckCircle2 size={18} />
             </div>
           </div>
           <div className="metric-value">{allFlows.filter(f => f.active).length}</div>
@@ -106,13 +129,70 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
           <div className="metric-header">
             <span className="metric-label">Total de Conversões</span>
             <div className="metric-icon icon-purple">
-              <TrendingUp size={18} />
+              <Target size={18} />
             </div>
           </div>
           <div className="metric-value">
             {allFlows.reduce((acc, flow) => acc + flow.conversions, 0).toLocaleString()}
           </div>
           <div className="metric-change positive">+35.2% vs mês anterior</div>
+        </div>
+      </div>
+
+      {/* Performance Charts Section */}
+      <div className="charts-section">
+        <div className="chart-card glow-cyan">
+          <div className="chart-header">
+            <h3>
+              <BarChart3 size={20} className="icon-cyan" />
+              Desempenho dos Fluxos
+            </h3>
+          </div>
+          <div className="chart-placeholder">
+            <div className="chart-bars">
+              {allFlows.slice(0, 5).map((flow, index) => (
+                <div key={flow.id} className="chart-bar-container">
+                  <div 
+                    className={`chart-bar chart-bar-${index % 4}`}
+                    style={{ height: `${(flow.conversions / Math.max(...allFlows.map(f => f.conversions))) * 100}%` }}
+                  ></div>
+                  <span className="chart-bar-label">{flow.name.substring(0, 12)}...</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="chart-card glow-magenta">
+          <div className="chart-header">
+            <h3>
+              <PieChart size={20} className="icon-magenta" />
+              Distribuição por Tipo
+            </h3>
+          </div>
+          <div className="chart-placeholder">
+            <div className="pie-chart-container">
+              <div className="pie-chart">
+                <div className="pie-segment segment-vendas"></div>
+                <div className="pie-segment segment-suporte"></div>
+                <div className="pie-segment segment-marketing"></div>
+              </div>
+              <div className="pie-legend">
+                <div className="legend-item">
+                  <span className="legend-color legend-vendas"></span>
+                  <span>Vendas ({allFlows.filter(f => f.type === 'vendas').length})</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color legend-suporte"></span>
+                  <span>Suporte ({allFlows.filter(f => f.type === 'suporte').length})</span>
+                </div>
+                <div className="legend-item">
+                  <span className="legend-color legend-marketing"></span>
+                  <span>Marketing ({allFlows.filter(f => f.type === 'marketing').length})</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -130,7 +210,7 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
         
         <div className="filters-group">
           <button className="filter-btn">
-            <Filter size={18} />
+            <Bot size={18} />
             <select 
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
@@ -222,8 +302,8 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
 
       {/* Quick Stats */}
       <div className="automation-stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon icon-green">
+        <div className="stat-card stat-card-green">
+          <div className="stat-icon stat-icon-green">
             <Clock size={24} />
           </div>
           <div className="stat-info">
@@ -232,8 +312,8 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon icon-cyan">
+        <div className="stat-card stat-card-cyan">
+          <div className="stat-icon stat-icon-cyan">
             <Users size={24} />
           </div>
           <div className="stat-info">
@@ -242,9 +322,9 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon icon-purple">
-            <TrendingUp size={24} />
+        <div className="stat-card stat-card-purple">
+          <div className="stat-icon stat-icon-purple">
+            <Activity size={24} />
           </div>
           <div className="stat-info">
             <span className="stat-label">Aumento em Vendas</span>
@@ -252,8 +332,8 @@ const AutomationPage = ({ searchTerm, setSearchTerm }: AutomationPageProps) => {
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon icon-magenta">
+        <div className="stat-card stat-card-magenta">
+          <div className="stat-icon stat-icon-magenta">
             <DollarSign size={24} />
           </div>
           <div className="stat-info">

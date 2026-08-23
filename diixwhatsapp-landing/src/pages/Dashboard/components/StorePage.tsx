@@ -11,7 +11,10 @@ import {
   DollarSign,
   TrendingUp,
   AlertTriangle,
-  Check
+  Check,
+  Share2,
+  BarChart3,
+  Zap
 } from 'lucide-react';
 import { topProducts } from '../../../data/dashboard';
 import '../Dashboard.css';
@@ -30,6 +33,8 @@ interface Product {
   category?: string;
   status?: string;
   image?: string;
+  price?: string;
+  description?: string;
 }
 
 const StorePage = ({ searchTerm, setSearchTerm }: StorePageProps) => {
@@ -37,12 +42,74 @@ const StorePage = ({ searchTerm, setSearchTerm }: StorePageProps) => {
   const [categoryFilter, setCategoryFilter] = useState('all');
 
   const allProducts: Product[] = [
-    ...topProducts.map(p => ({ ...p, category: 'Eletrônicos', status: 'active' as string, image: '📱' })),
-    { id: '6', name: 'Câmera DSLR Pro', stock: 8, sales: 45, revenue: 'R$ 134.550', category: 'Eletrônicos', status: 'active', image: '📷' },
-    { id: '7', name: 'Monitor 27" 4K', stock: 3, sales: 38, revenue: 'R$ 91.200', category: 'Eletrônicos', status: 'low-stock', image: '🖥️' },
-    { id: '8', name: 'Mouse Gamer RGB', stock: 0, sales: 156, revenue: 'R$ 23.400', category: 'Acessórios', status: 'out-of-stock', image: '🖱️' },
-    { id: '9', name: 'Headset Wireless', stock: 25, sales: 89, revenue: 'R$ 44.500', category: 'Acessórios', status: 'active', image: '🎧' },
-    { id: '10', name: 'Tablet Premium', stock: 12, sales: 67, revenue: 'R$ 134.000', category: 'Eletrônicos', status: 'active', image: '📱' },
+    ...topProducts.map(p => ({ 
+      ...p, 
+      category: 'Eletrônicos', 
+      status: 'active' as string, 
+      image: '📱',
+      price: 'R$ 297,00',
+      description: 'Kit completo de skincare premium'
+    })),
+    { 
+      id: '6', 
+      name: 'Câmera DSLR Pro', 
+      stock: 8, 
+      sales: 45, 
+      revenue: 'R$ 134.550', 
+      category: 'Eletrônicos', 
+      status: 'active', 
+      image: '📷',
+      price: 'R$ 2.990,00',
+      description: 'Câmera profissional 24MP'
+    },
+    { 
+      id: '7', 
+      name: 'Monitor 27" 4K', 
+      stock: 3, 
+      sales: 38, 
+      revenue: 'R$ 91.200', 
+      category: 'Eletrônicos', 
+      status: 'low-stock', 
+      image: '🖥️',
+      price: 'R$ 2.400,00',
+      description: 'Monitor Ultra HD IPS'
+    },
+    { 
+      id: '8', 
+      name: 'Mouse Gamer RGB', 
+      stock: 0, 
+      sales: 156, 
+      revenue: 'R$ 23.400', 
+      category: 'Acessórios', 
+      status: 'out-of-stock', 
+      image: '🖱️',
+      price: 'R$ 150,00',
+      description: 'Mouse 16000 DPI programável'
+    },
+    { 
+      id: '9', 
+      name: 'Headset Wireless', 
+      stock: 25, 
+      sales: 89, 
+      revenue: 'R$ 44.500', 
+      category: 'Acessórios', 
+      status: 'active', 
+      image: '🎧',
+      price: 'R$ 500,00',
+      description: 'Headset surround 7.1'
+    },
+    { 
+      id: '10', 
+      name: 'Tablet Premium', 
+      stock: 12, 
+      sales: 67, 
+      revenue: 'R$ 134.000', 
+      category: 'Eletrônicos', 
+      status: 'active', 
+      image: '📱',
+      price: 'R$ 2.000,00',
+      description: 'Tablet 10" 128GB'
+    },
   ];
 
   const filteredProducts = allProducts.filter(product => {
@@ -57,11 +124,28 @@ const StorePage = ({ searchTerm, setSearchTerm }: StorePageProps) => {
 
   const categories = ['all', ...Array.from(new Set(allProducts.map(p => p.category || 'Geral')))];
 
+  const handleShareProduct = (product: Product) => {
+    const message = `🛍️ *${product.name}*%0A%0A${product.description}%0A💰 *Preço:* ${product.price}%0A📦 *Estoque:* ${product.stock} unidades%0A%0AConfira agora!`;
+    window.open(`https://wa.me/?text=${message}`, '_blank');
+  };
+
   return (
     <div className="dashboard-content">
       <div className="content-header">
-        <h2>Loja Virtual</h2>
-        <p>Gerencie sua loja online e produtos</p>
+        <div className="header-title-group">
+          <h2><Package size={28} className="inline-icon" /> Loja Virtual</h2>
+          <p>Gerencie sua loja online, produtos e inventário</p>
+        </div>
+        <div className="header-actions-group">
+          <button className="btn-secondary" title="Exportar Relatório">
+            <BarChart3 size={18} />
+            Relatórios
+          </button>
+          <button className="btn-primary">
+            <Plus size={18} />
+            Novo Produto
+          </button>
+        </div>
       </div>
 
       {/* Metrics */}
@@ -151,8 +235,8 @@ const StorePage = ({ searchTerm, setSearchTerm }: StorePageProps) => {
           </button>
 
           <button className="btn-primary">
-            <Plus size={18} />
-            Novo Produto
+            <Zap size={18} />
+            Divulgar Todos
           </button>
         </div>
       </div>
@@ -172,6 +256,9 @@ const StorePage = ({ searchTerm, setSearchTerm }: StorePageProps) => {
             <div className="product-card-info">
               <h4>{product.name}</h4>
               <span className="product-category">{product.category}</span>
+              <p className="product-description">{product.description}</p>
+              
+              <div className="product-price-tag">{product.price}</div>
               
               <div className="product-card-stats">
                 <div className="stat-item">
@@ -194,6 +281,13 @@ const StorePage = ({ searchTerm, setSearchTerm }: StorePageProps) => {
                 </button>
                 <button className="action-btn-small" title="Editar">
                   <Edit size={16} />
+                </button>
+                <button 
+                  className="action-btn-small action-chat" 
+                  title="Compartilhar no WhatsApp"
+                  onClick={() => handleShareProduct(product)}
+                >
+                  <Share2 size={16} />
                 </button>
                 <button className="action-btn-small" title="Excluir">
                   <Trash2 size={16} />
