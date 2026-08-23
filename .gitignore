@@ -1,62 +1,525 @@
-```
 # Dependencies
 node_modules/
 
 # Build outputs
 dist/
 build/
+.next/
+out/
 
 # Environment variables
 .env
 .env.local
-*.env.*
+.env.*
 
-# Editor/IDE files
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
-*.tmp
 
 # Logs
 *.log
 
-# Python specific
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.Python
+env/
+venv/
+.venv/
 
-# Coverage reports
-coverage/
-htmlcov/
-*.coverage
+# Temporary files
+*.tmp
+*.temp
+*.bak
 
 # OS generated files
 .DS_Store
 Thumbs.db
 
-# Compression files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# MyPy
+.mypy_cache/
+
+# Pytest
+.pytest_cache/
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git/
+
+# Testing
+testem.log
+test-results.xml
+
+# Translations
+*.mo
+*.pot
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask
+instance/
+.webassets-cache
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Sage
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# FastAPI
+docker-compose.override.yml
+
+# VS Code
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/python.json
+
+# Webpack
+webpack-stats.json
+
+# Ember
+.ember-cli
+.ember-output
+tmp/
+vendor/
+
+# Vue
+dist/
+node_modules/
+*.log
+
+# Angular
+/dist/
+/node_modules/
+.angular/cache/
+.angular/cli.json
+
+# React
+/build/
+/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+dist/
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Bower
+bower_components/
+
+# Grunt
+.grunt
+grunt-gen/
+
+# NPM
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+
+# SASS
+.sass-cache/
+.css.map
+
+# Composer/Packagist
+vendor/
+
+# Ruby
+Gemfile.lock
+.bundle/
+.ruby-version
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
 *.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
-```
+target/
+.gradle/
+!src/main/**
+!src/test/**
+
+# C#
+*.sln
+*.csproj
+*.user
+*.userosscache
+*.suo
+*.vb
+*.obj
+*.bin
+*.pdb
+*.iobj
+*.ipdb
+*.msbuildproj
+*.msbuildproj.user
+*.cache
+*.VC.db
+*.VC.VC.opendb
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]ogs/
+[Tt]est[Rr]esult/
+[Tt]est[Rr]esults/
+[Ll]ayouts/
+[Tt]emp/
+[Bb]uild[Ll]ogs/
+
+# Go
+*.o
+*.a
+*.so
+_coverage.html
+_Darwin_386_test
+_Darwin_amd64_test
+_Linux_386_test
+_Linux_amd64_test
+_Windows_386_test
+_Windows_amd64_test
+
+# Rust
+target/
+Cargo.lock
+
+# Swift
+*.xcodeproj
+*.xcworkspace
+*.swiftpm
+
+# C
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+*.dll
+*.obj
+*.lib
+*.ilk
+*.exp
+*.pdb
+*.iobj
+*.ipdb
+*.tlog
+*.ilk
+*.meta
+*.pidb
+*.svclog
+*.stackdump
+*.d
+*.dSYM/
+*.[do]
+*.map
+*.lst
+*.hex
+*.bin
+*.elf
+*.axf
+*.uf2
+*.lst
+*.sym
+*.mot
+*.mxt
+*.srec
+*.elf
+*.axf
+*.uf2
+*.map
+*.lst
+*.sym
+*.mot
+*.mxt
+*.srec
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.stackdump
+*.core
+*.pidb
+*.svclog
+*.map
+*.lst
+*.sym
+*.mot
+*.mxt
+*.srec
+*.elf
+*.axf
+*.uf2
+*.d
+*.dSYM/
+*.pidb
+*.svclog
+*.stackdump
+*.core
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.out
+*.bin
+*.hex
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.o......

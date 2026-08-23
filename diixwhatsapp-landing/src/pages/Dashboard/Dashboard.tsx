@@ -88,17 +88,14 @@ const Dashboard = () => {
   const [isExporting, setIsExporting] = useState(false);
   const [searchHelpQuery, setSearchHelpQuery] = useState('');
   const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // Dark mode persistence - initialize from localStorage directly
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme ? savedTheme === 'dark' : true;
+  });
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
-  // Dark mode persistence
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark');
-    }
-  }, []);
-
+  // Dark mode persistence - only sync to localStorage (already initialized in useState)
   useEffect(() => {
     localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
