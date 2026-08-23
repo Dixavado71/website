@@ -371,6 +371,42 @@ export const translations: Record<string, Translation> = {
       top_products: 'Productos Más Vendidos',
       customer_segments: 'Segmentos de Clientes',
     },
+    
+    // Flow Builder
+    flow: {
+      builder: 'Constructor de Flujo',
+      save: 'Guardar',
+      load: 'Cargar',
+      export: 'Exportar',
+      import: 'Importar',
+      validate: 'Validar',
+      clear: 'Limpiar',
+      saved: '¡Flujo guardado con éxito!',
+      no_saved_flow: 'No se encontró ningún flujo guardado',
+      confirm_clear: '¿Está seguro de que desea limpiar el flujo actual?',
+    },
+    nodes: {
+      trigger: 'Disparador',
+      message: 'Mensaje',
+      condition: 'Condición',
+      delay: 'Retraso',
+      action: 'Acción',
+      webhook: 'Webhook',
+    },
+    nodeConfig: {
+      configure: 'Configurar Nodo',
+      label: 'Etiqueta',
+      delete: 'Eliminar Nodo',
+      keyword: 'Palabra clave',
+      message: 'Mensaje',
+      mediaUrl: 'URL de Multimedia',
+      delaySeconds: 'Retraso (segundos)',
+      actionType: 'Tipo de Acción',
+      tagName: 'Nombre de la Etiqueta',
+      webhookUrl: 'URL del Webhook',
+      httpMethod: 'Método HTTP',
+      conditions: 'Condiciones',
+    },
   },
 };
 
