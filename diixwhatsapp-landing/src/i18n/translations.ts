@@ -459,3 +459,5 @@ export const languages: Language[] = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'es', name: 'Español', flag: '🇪🇸' },
 ];
+
+export type LanguageCode = 'pt' | 'en' | 'es';

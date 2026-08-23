@@ -13,7 +13,7 @@ import type { FlowNodeData } from '../../store/flowStore';
 import { useFlowStore } from '../../store/flowStore';
 import Sidebar from './Sidebar';
 import NodeConfigPanel from './NodeConfigPanel';
-import FlowToolbar from './FlowToolbar';
+import './FlowBuilder.css';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -35,48 +35,33 @@ function CustomNode({ id, data }: NodeProps) {
     }
   };
 
-  const getColor = (type: string) => {
-    switch (type) {
-      case 'trigger': return 'bg-yellow-500';
-      case 'message': return 'bg-blue-500';
-      case 'condition': return 'bg-purple-500';
-      case 'delay': return 'bg-orange-500';
-      case 'action': return 'bg-green-500';
-      case 'webhook': return 'bg-pink-500';
-      default: return 'bg-gray-500';
-    }
-  };
-
   return (
     <div 
-      className="bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 rounded-lg shadow-lg p-4 min-w-[200px] cursor-pointer hover:shadow-xl transition-shadow"
+      className={`custom-node ${flowData.type}`}
       onClick={() => setSelectedNode({ id, data: flowData, position: { x: 0, y: 0 }, type: 'custom' } as any)}
     >
       <Handle 
         type="target" 
         position={Position.Top} 
-        className="!bg-blue-500 !w-3 !h-3"
       />
       
-      <div className="flex items-center gap-2 mb-2">
-        <div className={`${getColor(flowData.type)} w-8 h-8 rounded-full flex items-center justify-center text-white`}>
-          {getIcon(flowData.type)}
-        </div>
-        <span className="font-semibold text-gray-800 dark:text-white">{flowData.label}</span>
+      <div className="node-header">
+        <span className="node-icon-small">{getIcon(flowData.type)}</span>
+        <span className="node-title">{flowData.label}</span>
       </div>
       
       {flowData.config && Object.keys(flowData.config).length > 0 && (
-        <div className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+        <div className="node-content">
           {flowData.config.keyword && <p>Palavra-chave: {flowData.config.keyword}</p>}
           {flowData.config.message && <p className="truncate">Msg: {flowData.config.message}</p>}
           {flowData.config.delay && <p>Atraso: {flowData.config.delay}s</p>}
+          {flowData.config.url && <p className="truncate">URL: {flowData.config.url}</p>}
         </div>
       )}
       
       <Handle 
         type="source" 
         position={Position.Bottom} 
-        className="!bg-blue-500 !w-3 !h-3"
       />
     </div>
   );
@@ -160,14 +145,36 @@ export default function FlowBuilder() {
   };
 
   return (
-    <div className="flex h-[calc(100vh-140px)] bg-gray-50 dark:bg-gray-900">
-      {/* Barra Lateral de Nós */}
-      <Sidebar />
-      
-      {/* Área Principal do Flow */}
-      <div className="flex-1 flex flex-col">
-        {/* Toolbar */}
-        <FlowToolbar />
+    <div className="flow-builder-container">
+      {/* Top Bar */}
+      <div className="flow-top-bar">
+        <div className="flow-title-group">
+          <h2>
+            <span>🤖</span>
+            Flow Builder
+          </h2>
+          <span>Crie automações visuais para WhatsApp</span>
+        </div>
+        <div className="flow-actions">
+          <button className="action-btn secondary" title="Carregar fluxo">
+            📂 Carregar
+          </button>
+          <button className="action-btn secondary" title="Exportar JSON">
+            📤 Exportar
+          </button>
+          <button className="action-btn primary" title="Salvar fluxo">
+            💾 Salvar
+          </button>
+          <button className="action-btn success" title="Testar fluxo">
+            ▶️ Testar
+          </button>
+        </div>
+      </div>
+
+      {/* Main Workspace */}
+      <div className="flow-workspace">
+        {/* Barra Lateral de Nós */}
+        <Sidebar />
         
         {/* Canvas do React Flow */}
         <div className="flex-1">
@@ -186,33 +193,31 @@ export default function FlowBuilder() {
             defaultEdgeOptions={{
               type: 'smoothstep',
               animated: true,
-              style: { stroke: '#3b82f6', strokeWidth: 2 },
+              style: { stroke: '#cbd5e1', strokeWidth: 2 },
             }}
-            className="dark:[&_.react-flow__node]:text-white"
           >
-            <Controls className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600" />
+            <Controls />
             <MiniMap 
               nodeColor={(node: any) => {
                 const type = node.data?.type as string;
                 const colors: Record<string, string> = {
-                  trigger: '#eab308',
+                  trigger: '#f59e0b',
                   message: '#3b82f6',
-                  condition: '#a855f7',
+                  condition: '#8b5cf6',
                   delay: '#f97316',
-                  action: '#22c55e',
+                  action: '#10b981',
                   webhook: '#ec4899',
                 };
                 return colors[type] || '#6b7280';
               }}
-              className="bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
             />
-            <Background color="#888" gap={16} />
+            <Background color="#cbd5e1" gap={16} />
           </ReactFlow>
         </div>
+        
+        {/* Painel de Configuração */}
+        <NodeConfigPanel />
       </div>
-      
-      {/* Painel de Configuração */}
-      <NodeConfigPanel />
     </div>
   );
 }
