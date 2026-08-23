@@ -1,4 +1,4 @@
-import { Package, Filter, Download, Plus, Search, Edit, Trash2, AlertCircle, Tag, TrendingUp, CheckCircle, MessageCircle } from 'lucide-react';
+import { Package, Filter, Download, Plus, Search, Edit, Trash2, AlertCircle, Tag, TrendingUp, CheckCircle, Eye, Share2 } from 'lucide-react';
 import { products } from '../../../data/dashboard';
 
 interface ProductsPageProps {
@@ -19,14 +19,26 @@ const ProductsPage = ({ searchTerm, setSearchTerm, productStatusFilter, setProdu
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'active':
-        return <span className="status-badge status-completed">Ativo</span>;
+        return <span className="status-badge status-completed"><CheckCircle size={12} /> Ativo</span>;
       case 'inactive':
         return <span className="status-badge status-cancelled">Inativo</span>;
       case 'low_stock':
-        return <span className="status-badge status-low-stock"><AlertCircle size={14} /> Estoque Baixo</span>;
+        return <span className="status-badge status-low-stock"><AlertCircle size={12} /> Estoque Baixo</span>;
       default:
         return <span className="status-badge">{status}</span>;
     }
+  };
+
+  const getProductEmoji = (category: string) => {
+    const emojis: Record<string, string> = {
+      'Eletrônicos': '📱',
+      'Acessórios': '🎧',
+      'Casa': '🏠',
+      'Beleza': '💄',
+      'Esportes': '⚽',
+      'Livros': '📚'
+    };
+    return emojis[category] || '📦';
   };
 
   const totalProducts = filteredProducts.length;
@@ -36,6 +48,12 @@ const ProductsPage = ({ searchTerm, setSearchTerm, productStatusFilter, setProdu
     const value = parseFloat(product.revenue.replace('R$', '').replace('.', '').replace(',', '.'));
     return acc + (isNaN(value) ? 0 : value);
   }, 0);
+
+  const handleShareProduct = (product: typeof products[0]) => {
+    const message = `🌟 *${product.name}*\n\n${product.description}\n\n💰 Preço: ${product.price}\n📦 Estoque: ${product.stock} un.\n\n🛒 Compre agora!`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
     <div className="dashboard-content">
@@ -120,18 +138,25 @@ const ProductsPage = ({ searchTerm, setSearchTerm, productStatusFilter, setProdu
         {filteredProducts.map((product) => (
           <div key={product.id} className="product-card glow-cyan">
             <div className="product-card-header">
-              <div className="product-icon">
-                <Package size={24} className="icon-cyan" />
+              <div className="product-icon-with-emoji">
+                <span className="product-emoji-icon">{getProductEmoji(product.category)}</span>
               </div>
               <div className="product-actions">
+                <button className="action-btn-sm" title="Visualizar">
+                  <Eye size={14} />
+                </button>
                 <button className="action-btn-sm" title="Editar">
                   <Edit size={14} />
                 </button>
                 <button className="action-btn-sm" title="Excluir">
                   <Trash2 size={14} />
                 </button>
-                <button className="action-btn-sm action-chat" title="Divulgar Produto">
-                  <MessageCircle size={14} />
+                <button 
+                  className="action-btn-sm action-share" 
+                  title="Compartilhar no WhatsApp"
+                  onClick={() => handleShareProduct(product)}
+                >
+                  <Share2 size={14} />
                 </button>
               </div>
             </div>
