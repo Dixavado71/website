@@ -2558,6 +2558,18 @@
   color: #fff;
   font-size: 0.8125rem;
   cursor: pointer;
+  transition: all 0.2s;
+}
+
+.report-type-select:hover {
+  border-color: rgba(0, 255, 136, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.report-type-select:focus {
+  outline: none;
+  border-color: #00ff88;
+  box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
 }
 
 .report-actions {
@@ -2580,9 +2592,17 @@
   transition: all 0.2s;
 }
 
-.export-btn:hover {
+.export-btn:hover:not(:disabled) {
   background: rgba(0, 255, 136, 0.2);
   border-color: rgba(0, 255, 136, 0.5);
+}
+
+.export-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #6b7280;
 }
 
 .reports-grid {
@@ -2830,6 +2850,45 @@
   outline: none;
   color: #fff;
   font-size: 0.875rem;
+}
+
+.search-results-info {
+  padding: 0.75rem 1rem;
+  background: rgba(0, 255, 136, 0.05);
+  border-left: 3px solid #00ff88;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.8125rem;
+  color: #9ca3af;
+}
+
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  text-align: center;
+  background: rgba(15, 15, 23, 0.5);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 1rem;
+}
+
+.no-results svg {
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-results p {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.no-results span {
+  color: #9ca3af;
+  font-size: 0.8125rem;
 }
 
 .help-categories h3,

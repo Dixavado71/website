@@ -27,8 +27,6 @@ import {
   Zap,
   ArrowUpRight,
   Download,
-  Filter,
-  Calendar,
   Table,
   Moon,
   Shield,
@@ -81,6 +79,55 @@ const Dashboard = () => {
   const [orderStatusFilter, setOrderStatusFilter] = useState('all');
   const [productStatusFilter, setProductStatusFilter] = useState('all');
   const [customerSegmentFilter, setCustomerSegmentFilter] = useState('all');
+  const [reportPeriod, setReportPeriod] = useState('30d');
+  const [reportType, setReportType] = useState('all');
+  const [isExporting, setIsExporting] = useState(false);
+  const [searchHelpQuery, setSearchHelpQuery] = useState('');
+  const [expandedFaq, setExpandedFaq] = useState<string | null>(null);
+
+  const faqItems = [
+    {
+      id: 'faq1',
+      icon: Info,
+      iconClass: 'icon-blue',
+      question: 'Como configurar meu primeiro fluxo de automação?',
+      answer: 'Acesse a página de Automação, clique em "Novo Fluxo", escolha o tipo de fluxo e configure as mensagens e gatilhos desejados.'
+    },
+    {
+      id: 'faq2',
+      icon: Info,
+      iconClass: 'icon-cyan',
+      question: 'Como integrar com meu WhatsApp Business?',
+      answer: 'Vá em Configurações > Integrações, selecione WhatsApp Business e siga as instruções para conectar seu número.'
+    },
+    {
+      id: 'faq3',
+      icon: Info,
+      iconClass: 'icon-purple',
+      question: 'Como exportar relatórios em PDF ou Excel?',
+      answer: 'Na página de Relatórios, utilize os botões "Exportar PDF" ou "Exportar Excel" no topo da página para baixar seus dados.'
+    },
+    {
+      id: 'faq4',
+      icon: Info,
+      iconClass: 'icon-magenta',
+      question: 'Como ativar a loja virtual?',
+      answer: 'Em Configurações > Loja Virtual, ative a opção "Loja Ativa" e personalize sua URL de acesso.'
+    },
+    {
+      id: 'faq5',
+      icon: Info,
+      iconClass: 'icon-green',
+      question: 'Quais formas de pagamento estão disponíveis?',
+      answer: 'O sistema suporta Pix, Cartão de Crédito, Boleto e pode ser integrado com principais gateways de pagamento.'
+    }
+  ];
+
+  const filteredFaqItems = faqItems.filter(item => 
+    searchHelpQuery === '' || 
+    item.question.toLowerCase().includes(searchHelpQuery.toLowerCase()) ||
+    item.answer.toLowerCase().includes(searchHelpQuery.toLowerCase())
+  );
 
   const menuItems = [
     { id: 'overview', label: 'Visão Geral', icon: BarChart3 },
@@ -102,6 +149,21 @@ const Dashboard = () => {
 
   const toggleFlowStatus = (flowId: string) => {
     console.log('Toggle flow:', flowId);
+  };
+
+  const handleExportReport = (format: 'pdf' | 'excel') => {
+    setIsExporting(true);
+    console.log(`Exporting report as ${format}...`);
+    setTimeout(() => {
+      setIsExporting(false);
+      alert(`Relatório exportado com sucesso em formato ${format.toUpperCase()}!`);
+    }, 1500);
+  };
+
+  const handleFilterChange = (filterType: string, value: string) => {
+    if (filterType === 'period') setReportPeriod(value);
+    if (filterType === 'type') setReportType(value);
+    console.log(`Filter updated: ${filterType} = ${value}`);
   };
 
   return (
@@ -581,30 +643,46 @@ const Dashboard = () => {
 
                   <div className="reports-actions-bar">
                     <div className="report-filters">
-                      <button className="filter-btn">
-                        <Calendar size={16} />
-                        <span>Período</span>
-                      </button>
-                      <button className="filter-btn">
-                        <Filter size={16} />
-                        <span>Filtros</span>
-                      </button>
-                      <select className="report-type-select">
-                        <option>Todos os Relatórios</option>
-                        <option>Vendas</option>
-                        <option>Clientes</option>
-                        <option>Produtos</option>
-                        <option>Financeiro</option>
+                      <select 
+                        className="report-type-select" 
+                        value={reportPeriod}
+                        onChange={(e) => handleFilterChange('period', e.target.value)}
+                      >
+                        <option value="7d">Últimos 7 dias</option>
+                        <option value="30d">Últimos 30 dias</option>
+                        <option value="90d">Últimos 90 dias</option>
+                        <option value="12m">Últimos 12 meses</option>
+                      </select>
+                      <select 
+                        className="report-type-select"
+                        value={reportType}
+                        onChange={(e) => handleFilterChange('type', e.target.value)}
+                      >
+                        <option value="all">Todos os Relatórios</option>
+                        <option value="sales">Vendas</option>
+                        <option value="customers">Clientes</option>
+                        <option value="products">Produtos</option>
+                        <option value="financial">Financeiro</option>
+                        <option value="automation">Automação</option>
+                        <option value="conversations">Conversas</option>
                       </select>
                     </div>
                     <div className="report-actions">
-                      <button className="export-btn">
+                      <button 
+                        className="export-btn"
+                        onClick={() => handleExportReport('pdf')}
+                        disabled={isExporting}
+                      >
                         <Download size={16} />
-                        <span>Exportar PDF</span>
+                        <span>{isExporting ? 'Exportando...' : 'Exportar PDF'}</span>
                       </button>
-                      <button className="export-btn">
+                      <button 
+                        className="export-btn"
+                        onClick={() => handleExportReport('excel')}
+                        disabled={isExporting}
+                      >
                         <Table size={16} />
-                        <span>Exportar Excel</span>
+                        <span>{isExporting ? 'Exportando...' : 'Exportar Excel'}</span>
                       </button>
                     </div>
                   </div>
@@ -903,8 +981,19 @@ const Dashboard = () => {
 
                   <div className="help-search-box">
                     <Search size={20} />
-                    <input type="text" placeholder="Como podemos ajudar? Digite sua dúvida..." />
+                    <input 
+                      type="text" 
+                      placeholder="Como podemos ajudar? Digite sua dúvida..." 
+                      value={searchHelpQuery}
+                      onChange={(e) => setSearchHelpQuery(e.target.value)}
+                    />
                   </div>
+
+                  {searchHelpQuery && (
+                    <div className="search-results-info">
+                      <span>{filteredFaqItems.length} resultado(s) encontrado(s)</span>
+                    </div>
+                  )}
 
                   <div className="help-categories">
                     <h3>Categorias</h3>
@@ -951,41 +1040,34 @@ const Dashboard = () => {
                   <div className="help-faq">
                     <h3>Perguntas Frequentes</h3>
                     <div className="faq-list">
-                      <details className="faq-item">
-                        <summary>
-                          <Info size={18} className="icon-blue" />
-                          <span>Como configurar meu primeiro fluxo de automação?</span>
-                        </summary>
-                        <p>Acesse a página de Automação, clique em "Novo Fluxo", escolha o tipo de fluxo e configure as mensagens e gatilhos desejados.</p>
-                      </details>
-                      <details className="faq-item">
-                        <summary>
-                          <Info size={18} className="icon-cyan" />
-                          <span>Como integrar com meu WhatsApp Business?</span>
-                        </summary>
-                        <p>Vá em Configurações &gt; Integrações, selecione WhatsApp Business e siga as instruções para conectar seu número.</p>
-                      </details>
-                      <details className="faq-item">
-                        <summary>
-                          <Info size={18} className="icon-purple" />
-                          <span>Como exportar relatórios em PDF ou Excel?</span>
-                        </summary>
-                        <p>Na página de Relatórios, utilize os botões "Exportar PDF" ou "Exportar Excel" no topo da página para baixar seus dados.</p>
-                      </details>
-                      <details className="faq-item">
-                        <summary>
-                          <Info size={18} className="icon-magenta" />
-                          <span>Como ativar a loja virtual?</span>
-                        </summary>
-                        <p>Em Configurações &gt; Loja Virtual, ative a opção "Loja Ativa" e personalize sua URL de acesso.</p>
-                      </details>
-                      <details className="faq-item">
-                        <summary>
-                          <Info size={18} className="icon-green" />
-                          <span>Quais formas de pagamento estão disponíveis?</span>
-                        </summary>
-                        <p>O sistema suporta Pix, Cartão de Crédito, Boleto e pode ser integrado com principais gateways de pagamento.</p>
-                      </details>
+                      {filteredFaqItems.length > 0 ? (
+                        filteredFaqItems.map((item) => (
+                          <details 
+                            key={item.id} 
+                            className="faq-item"
+                            open={expandedFaq === item.id}
+                            onToggle={(e) => {
+                              if ((e.target as HTMLDetailsElement).open) {
+                                setExpandedFaq(item.id);
+                              } else {
+                                setExpandedFaq(null);
+                              }
+                            }}
+                          >
+                            <summary>
+                              <item.icon size={18} className={item.iconClass} />
+                              <span>{item.question}</span>
+                            </summary>
+                            <p>{item.answer}</p>
+                          </details>
+                        ))
+                      ) : (
+                        <div className="no-results">
+                          <Info size={48} className="icon-gray" />
+                          <p>Nenhum resultado encontrado para "{searchHelpQuery}"</p>
+                          <span>Tente buscar por outros termos ou navegue pelas categorias</span>
+                        </div>
+                      )}
                     </div>
                   </div>
 
