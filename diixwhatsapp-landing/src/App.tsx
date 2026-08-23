@@ -9,14 +9,22 @@ import Pricing from './components/Pricing/Pricing'
 import FAQ from './components/FAQ/FAQ'
 import Footer from './components/Footer/Footer'
 import { SignupModal } from './components/SignupModal/SignupModal'
+import LoginModal from './components/LoginModal/LoginModal'
+import { useAuth } from './contexts/AuthContext'
 import './App.css'
 
 function App() {
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+  const { isAuthenticated } = useAuth()
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar onOpenSignup={() => setIsSignupModalOpen(true)} />
+      <Navbar 
+        onOpenSignup={() => setIsSignupModalOpen(true)} 
+        onOpenLogin={() => setIsLoginModalOpen(true)}
+        isAuthenticated={isAuthenticated}
+      />
       <main>
         <Hero onOpenSignup={() => setIsSignupModalOpen(true)} />
         <Features />
@@ -28,6 +36,7 @@ function App() {
       </main>
       <Footer />
       <SignupModal isOpen={isSignupModalOpen} onClose={() => setIsSignupModalOpen(false)} />
+      <LoginModal isOpen={isLoginModalOpen} onClose={() => setIsLoginModalOpen(false)} />
     </div>
   )
 }
