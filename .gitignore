@@ -2,7 +2,7 @@
 # Dependencies
 node_modules/
 
-# Build outputs
+# Build artifacts
 dist/
 build/
 *.min.js
@@ -14,6 +14,13 @@ build/
 .env.local
 *.env.*
 
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
 # Logs
 *.log
 
@@ -21,28 +28,10 @@ build/
 .DS_Store
 Thumbs.db
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Python
+# Python (if applicable)
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 .Python
-venv/
-.venv/
-.env
-
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-
-# Temporary files
-*.tmp
-*.temp
 ```
