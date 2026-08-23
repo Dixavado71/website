@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   DollarSign, 
   CreditCard, 
@@ -13,7 +13,7 @@ import {
   Trash2,
   ArrowUpRight,
   ArrowDownRight,
-  PieChart,
+  PieChart as PieChartIcon,
   BarChart3,
   Wallet,
   Receipt,
@@ -21,7 +21,18 @@ import {
   XCircle,
   CheckCircle2
 } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 import '../Dashboard.css';
+
+interface Transaction {
+  id: string;
+  description: string;
+  type: 'income' | 'expense';
+  value: number;
+  date: string;
+  status: 'completed' | 'pending';
+  category: string;
+}
 
 interface FinancialPageProps {
   searchTerm: string;
@@ -31,8 +42,9 @@ interface FinancialPageProps {
 const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
   const [periodFilter, setPeriodFilter] = useState('month');
   const [typeFilter, setTypeFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
 
-  const transactions = [
+  const transactions: Transaction[] = [
     { id: '1', description: 'Venda - Kit Skincare Premium', type: 'income', value: 297.00, date: '2026-08-22', status: 'completed', category: 'Vendas' },
     { id: '2', description: 'Venda - Smartwatch Pro', type: 'income', value: 549.00, date: '2026-08-22', status: 'completed', category: 'Vendas' },
     { id: '3', description: 'Assinatura Plano Business', type: 'expense', value: 99.90, date: '2026-08-21', status: 'completed', category: 'Assinaturas' },
@@ -42,6 +54,14 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
     { id: '7', description: 'Hospedagem Cloud', type: 'expense', value: 127.50, date: '2026-08-19', status: 'completed', category: 'Infraestrutura' },
     { id: '8', description: 'Venda - Câmera DSLR Pro', type: 'income', value: 2990.00, date: '2026-08-19', status: 'completed', category: 'Vendas' },
   ];
+
+  // Simular carregamento de dados
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const filteredTransactions = transactions.filter(t => {
     const matchesSearch = t.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -54,14 +74,46 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
   const balance = totalIncome - totalExpense;
 
   const paymentMethods = [
-    { name: 'Cartão de Crédito', value: 3455.00, percentage: 78, icon: CreditCard },
-    { name: 'Pix', value: 890.00, percentage: 20, icon: DollarSign },
-    { name: 'Boleto', value: 88.00, percentage: 2, icon: Receipt },
+    { name: 'Cartão de Crédito', value: 3455.00, percentage: 78, icon: CreditCard, color: '#00ff88' },
+    { name: 'Pix', value: 890.00, percentage: 20, icon: DollarSign, color: '#00e5ff' },
+    { name: 'Boleto', value: 88.00, percentage: 2, icon: Receipt, color: '#b92ed1' },
   ];
+
+  const chartData = [
+    { name: 'Receitas', value: totalIncome, fill: '#00ff88' },
+    { name: 'Despesas', value: totalExpense, fill: '#ff2ed1' },
+    { name: 'Saldo', value: balance, fill: '#00e5ff' },
+  ];
+
+  const pieData = paymentMethods.map(method => ({
+    name: method.name,
+    value: method.value,
+    color: method.color,
+  }));
 
   const exportReport = (format: string) => {
     console.log(`Exporting financial report as ${format}...`);
   };
+
+  if (loading) {
+    return (
+      <div className="dashboard-content">
+        <div className="skeleton-container">
+          <div className="skeleton-header"></div>
+          <div className="skeleton-metrics-grid">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="skeleton-metric-card"></div>
+            ))}
+          </div>
+          <div className="skeleton-charts-grid">
+            <div className="skeleton-chart-card"></div>
+            <div className="skeleton-chart-card"></div>
+          </div>
+          <div className="skeleton-table"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard-content">
@@ -134,71 +186,76 @@ const FinancialPage = ({ searchTerm, setSearchTerm }: FinancialPageProps) => {
         </div>
       </div>
 
-      {/* Charts Section */}
+      {/* Charts Section with Recharts */}
       <div className="charts-section">
         <div className="chart-card glow-green">
           <div className="chart-header">
             <h3>
               <BarChart3 size={20} className="icon-green" />
-              Receitas vs Despesas
+              Receitas vs Despesas vs Saldo
             </h3>
           </div>
-          <div className="chart-placeholder">
-            <div className="bar-chart-comparison">
-              <div className="bar-group">
-                <div className="bar-label">Receitas</div>
-                <div 
-                  className="bar-income"
-                  style={{ width: `${(totalIncome / 5000) * 100}%` }}
-                >
-                  <span>R$ {totalIncome.toFixed(0)}</span>
-                </div>
-              </div>
-              <div className="bar-group">
-                <div className="bar-label">Despesas</div>
-                <div 
-                  className="bar-expense"
-                  style={{ width: `${(totalExpense / 5000) * 100}%` }}
-                >
-                  <span>R$ {totalExpense.toFixed(0)}</span>
-                </div>
-              </div>
-              <div className="bar-group">
-                <div className="bar-label">Saldo</div>
-                <div 
-                  className="bar-balance"
-                  style={{ width: `${(balance / 5000) * 100}%` }}
-                >
-                  <span>R$ {balance.toFixed(0)}</span>
-                </div>
-              </div>
-            </div>
+          <div className="chart-placeholder" style={{ height: '300px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#2d3748" />
+                <XAxis dataKey="name" stroke="#a0aec0" />
+                <YAxis stroke="#a0aec0" />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1a202c', 
+                    border: '1px solid #2d3748',
+                    borderRadius: '8px',
+                    color: '#fff'
+                  }}
+                  formatter={(value: any) => `R$ ${Number(value).toFixed(2).replace('.', ',')}`}
+                />
+                <Bar dataKey="value" radius={[8, 8, 0, 0]}>
+                  {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
         <div className="chart-card glow-purple">
           <div className="chart-header">
             <h3>
-              <PieChart size={20} className="icon-purple" />
+              <PieChartIcon size={20} className="icon-purple" />
               Métodos de Pagamento
             </h3>
           </div>
-          <div className="chart-placeholder">
-            <div className="pie-chart-container">
-              <div className="pie-chart">
-                <div className="pie-segment segment-cartao"></div>
-                <div className="pie-segment segment-pix"></div>
-                <div className="pie-segment segment-boleto"></div>
-              </div>
-              <div className="pie-legend">
-                {paymentMethods.map((method, index) => (
-                  <div key={index} className="legend-item">
-                    <span className={`legend-color legend-${method.name.toLowerCase().split(' ')[0]}`}></span>
-                    <span>{method.name} ({method.percentage}%)</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="chart-placeholder" style={{ height: '300px' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }: { name: string; percent: number }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: '#1a202c', 
+                    border: '1px solid #2d3748',
+                    borderRadius: '8px',
+                    color: '#fff'
+                  }}
+                  formatter={(value: any) => `R$ ${Number(value).toFixed(2).replace('.', ',')}`}
+                />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

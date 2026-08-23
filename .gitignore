@@ -2,35 +2,48 @@
 # Dependencies
 node_modules/
 
-# Build outputs
-dist/
-build/
-*.js.map
-*.ts.map
-
-# Environment variables
+# Environment
 .env
 .env.local
 .env.*
 
-# IDE files
+# Test coverage and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Build outputs
+dist/
+build/
+*.min.js
+*.min.css
+
+# Logs
+*.log
+
+# IDE
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
-
-# Logs
-*.log
 
 # Coverage
 coverage/
 htmlcov/
 .coverage
 
-# Temporary files
-*.tmp
+# Package manager
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Testing
+__tests__/
+test/
+spec/
 ```
