@@ -820,6 +820,12 @@
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+.action-btn.action-chat:hover {
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  border-color: rgba(0, 255, 136, 0.3);
+}
+
 /* Products & Orders Grid */
 .products-orders-grid {
   display: grid;
@@ -1121,6 +1127,12 @@
 .action-btn-sm:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
+}
+
+.action-btn-sm.action-chat:hover {
+  background: rgba(0, 255, 136, 0.1);
+  color: #00ff88;
+  border-color: rgba(0, 255, 136, 0.3);
 }
 
 /* Status Badges */
