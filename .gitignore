@@ -2,59 +2,102 @@
 # Dependencies
 node_modules/
 
-# Build artifacts
+# Build outputs
 dist/
 build/
-target/
+.next/
+.nuxt/
+public/build/
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.py.class
-venv/
-.venv/
+# Environment variables
 .env
 .env.local
 .env.*
 
-# Logs
-*.log
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# IDE
+# IDE and editor files
 .vscode/
 .idea/
 *.swp
 *.swo
-*.tmp
 
-# OS
+# OS generated files
 .DS_Store
 Thumbs.db
 
-# Compressed files
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
+# Logs
+*.log
+
+# Runtime
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Coverage
+coverage/
+.nyc_output
+htmlcov/
+
+# TypeScript
+*.tsbuildinfo
+.next/
+.nuxt/
+dist/
+
+# Vite specific
+!.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Package manager lock files
+package-lock.json
+yarn.lock
+
+# React/Next.js
+.next/
+out/
+build/
+
+# Redux
+.redux-toolkit-build-info.json
+
+# Recharts
+.recharts-build-info.json
+
+# Lucide React
+.lucide-react-build-info.json
+
+# Babel
+.babel-cache/
+.babelrc
+
+# ESLint
+eslint-cache/
+
+# Prettier
+prettier-cache/
+
+# Temporary build artifacts from deleted node_modules paths
+node_modules/date-fns/
+node_modules/decimal.js-light/
+node_modules/es-toolkit/
+node_modules/follow-redirects/
+node_modules/form-data/
+node_modules/lucide-react/
+node_modules/react/
+node_modules/react-dom/
+node_modules/react-is/
+node_modules/react-redux/
+node_modules/recharts/
+node_modules/redux/
+node_modules/redux-thunk/
+node_modules/reselect/
+node_modules/scheduler/
+node_modules/tiny-invariant/
+node_modules/use-sync-external-store/
+node_modules/victory-vendor/
+
 ```
